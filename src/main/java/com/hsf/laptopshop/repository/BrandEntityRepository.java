@@ -9,4 +9,6 @@ public interface BrandEntityRepository extends JpaRepository<BrandEntity, Intege
     BrandEntity save(BrandEntity be);
 
     long count();
+
+    BrandEntity findByBrandName(String brandName);
 }

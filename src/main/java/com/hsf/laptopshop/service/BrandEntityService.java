@@ -8,4 +8,6 @@ public interface BrandEntityService {
     boolean createBrand(BrandEntity brand);
 
     Long count();
+
+    BrandEntity getBrandEntityByBrandName(String brandName);
 }

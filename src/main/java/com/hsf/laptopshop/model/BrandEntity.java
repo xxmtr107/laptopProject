@@ -16,6 +16,6 @@ public class BrandEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brand_id")
     int brandId;
-    @Column(name = "brand_name", nullable = false, unique = true)
+    @Column(name = "brand_name", nullable = false, unique = true, length = 50)
     String brandName;
 }
