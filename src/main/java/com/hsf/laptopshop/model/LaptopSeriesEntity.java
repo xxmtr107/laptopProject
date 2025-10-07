@@ -19,6 +19,6 @@ public class LaptopSeriesEntity {
     @Column(name = "series_name")
     String seriesName;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "model_id")
-    LaptopModelEntity laptopModel;
+    @JoinColumn(name = "brand_id")
+    BrandEntity brand;
 }
