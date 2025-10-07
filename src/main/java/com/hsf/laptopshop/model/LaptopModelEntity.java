@@ -16,9 +16,8 @@ public class LaptopModelEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_id")
     Integer modelId;
-    @Column(name = "model_name")
+    @Column(name = "model_name",length = 50)
     String modelName;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "series_id")
     LaptopModelEntity laptopSeries;

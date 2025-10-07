@@ -19,4 +19,9 @@ public class BrandEntityServiceImpl implements BrandEntityService {
     public Long count() {
         return brandEntityRepository.count();
     }
+
+    @Override
+    public BrandEntity getBrandEntityByBrandName(String brandName) {
+        return brandEntityRepository.findByBrandName(brandName);
+    }
 }
