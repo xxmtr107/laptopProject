@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class LaptopSeriesEntity {
+public class LaptopSeriesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "laptop_series")
@@ -19,6 +19,6 @@ public abstract class LaptopSeriesEntity {
     @Column(name = "series_name")
     String seriesName;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "model_id")
-    LaptopModelEntity laptopModel;
+    @JoinColumn(name = "brand_id")
+    BrandEntity brand;
 }
