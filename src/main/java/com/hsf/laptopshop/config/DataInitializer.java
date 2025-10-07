@@ -10,15 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-    private final String[] BRANDS = {"Apple", "Dell", "HP", "Lenovo", "Asus", "Acer", "MSI", "Microsoft" };
-    private final String[] APPLE_SERIES = {"MacBook", "MacBook Air", "MacBook Pro" };
-    private final String[] DELL_SERIES = {"XPS", "Inspiron", "Vostro", "Latitude", "Precision", "Alienware", "G Series", "Chromebook" };
-    private final String[] HP_SERIES = {"Pavilion", "Envy", "Spectre", "Omen", "Victus", "EliteBook", "ProBook", "ZBook", "Chromebook" };
-    private final String[] LENOVO_SERIES = {"ThinkPad", "ThinkBook", "IdeaPad", "Yoga", "Legion", "LOQ", "V Series", "Chromebook" };
-    private final String[] ASUS_SERIES = {"VivoBook", "ZenBook", "ROG", "TUF", "ExpertBook", "ProArt StudioBook", "Chromebook", "BR Series" };
-    private final String[] ACER_SERIES = {"Aspire", "Swift", "Spin", "Predator", "Nitro", "TravelMate", "Enduro", "Chromebook" };
-    private final String[] MSI_SERIES = {"Stealth", "Raider", "Titan", "Vector", "Cyborg", "Katana", "Pulse", "Modern", "Prestige", "Creator" };
-    private final String[] MICROSOFT_SERIES = {"Surface Laptop", "Surface Pro", "Surface Go", "Surface Book", "Surface Studio" };
+    private final String[] BRANDS = {"Apple", "Dell", "HP", "Lenovo", "Asus", "Acer", "MSI" };
+    private final String[] APPLE_SERIES = {"MacBook Air", "MacBook Pro" };
+    private final String[] DELL_SERIES = {"XPS", "Inspiron", "Vostro", "Latitude", "Alienware" };
+    private final String[] HP_SERIES = {"Pavilion", "Envy", "Spectre", "Victus", "ProBook" };
+    private final String[] LENOVO_SERIES = {"ThinkPad", "ThinkBook", "IdeaPad", "Yoga", "Legion", "LOQ", "V Series" };
+    private final String[] ASUS_SERIES = {"VivoBook", "ZenBook", "ROG", "TUF", "ExpertBook" };
+    private final String[] ACER_SERIES = {"Aspire", "Swift", "Predator", "Nitro" };
+    private final String[] MSI_SERIES = {"Raider", "Cyborg", "Katana", "Modern", "Prestige", "Venture" };
 
     @Autowired
     BrandEntityService brandEntityService;
@@ -86,13 +85,6 @@ public class DataInitializer implements CommandLineRunner {
             LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
             seriesEntity.setSeriesName(series);
             seriesEntity.setBrand(brandEntityService.getBrandEntityByBrandName(BRANDS[6]));
-            laptopSeriesEntityService.createSeries(seriesEntity);
-        }
-        // 7. For Microsoft
-        for (String series : MICROSOFT_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandEntityService.getBrandEntityByBrandName(BRANDS[7]));
             laptopSeriesEntityService.createSeries(seriesEntity);
         }
     }
