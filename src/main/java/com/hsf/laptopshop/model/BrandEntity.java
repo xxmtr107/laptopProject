@@ -1,6 +1,5 @@
 package com.hsf.laptopshop.model;
 
-import com.hsf.laptopshop.enums.BrandName;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,12 +11,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public abstract class BrandEntity {
+public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brand_id")
     int brandId;
-    @Enumerated(EnumType.STRING)
     @Column(name = "brand_name", nullable = false, unique = true)
-    BrandName brandName;
+    String brandName;
 }

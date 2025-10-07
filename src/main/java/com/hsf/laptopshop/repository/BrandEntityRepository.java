@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BrandEntityRepository extends JpaRepository<BrandEntity, Integer> {
     BrandEntity save(BrandEntity be);
+
+    long count();
 }
