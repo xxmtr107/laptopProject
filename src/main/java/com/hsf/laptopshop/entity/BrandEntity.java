@@ -1,4 +1,4 @@
-package com.hsf.laptopshop.model;
+package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

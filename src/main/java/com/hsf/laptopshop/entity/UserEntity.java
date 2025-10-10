@@ -1,5 +1,6 @@
-package com.hsf.laptopshop.model;
+package com.hsf.laptopshop.entity;
 
+import com.hsf.laptopshop.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -18,6 +19,8 @@ public class UserEntity {
     String username;
     @Column(name = "password")
     String password;
-    @
-    RoleEntity role;
+    @Column(name = "role")
+    Role role;
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, optional = true)
+    UserProfileEntity userProfile;
 }
