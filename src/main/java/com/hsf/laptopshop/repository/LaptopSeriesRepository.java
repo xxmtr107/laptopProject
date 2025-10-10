@@ -1,8 +1,8 @@
 package com.hsf.laptopshop.repository;
 
-import com.hsf.laptopshop.model.LaptopSeriesEntity;
+import com.hsf.laptopshop.entity.LaptopSeriesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LaptopSeriesEntityRepository extends JpaRepository<LaptopSeriesEntity, Integer> {
+public interface LaptopSeriesRepository extends JpaRepository<LaptopSeriesEntity, Integer> {
     LaptopSeriesEntity save(LaptopSeriesEntity lse);
 }

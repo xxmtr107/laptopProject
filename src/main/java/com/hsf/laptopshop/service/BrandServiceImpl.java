@@ -1,14 +1,14 @@
 package com.hsf.laptopshop.service;
 
-import com.hsf.laptopshop.model.BrandEntity;
-import com.hsf.laptopshop.repository.BrandEntityRepository;
+import com.hsf.laptopshop.entity.BrandEntity;
+import com.hsf.laptopshop.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BrandEntityServiceImpl implements BrandEntityService {
+public class BrandServiceImpl implements BrandService {
     @Autowired
-    BrandEntityRepository brandEntityRepository;
+    BrandRepository brandEntityRepository;
 
     @Override
     public boolean createBrand(BrandEntity brand) {

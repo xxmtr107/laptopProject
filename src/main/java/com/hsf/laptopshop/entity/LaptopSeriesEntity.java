@@ -1,4 +1,4 @@
-package com.hsf.laptopshop.model;
+package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import lombok.experimental.FieldDefaults;
 public class LaptopSeriesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "laptop_series")
+    @Column(name = "laptop_series_id")
     Integer seriesId;
     @Column(name = "series_name", unique = false, nullable = false, length = 50)
     String seriesName;
