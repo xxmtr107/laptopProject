@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import org.yaml.snakeyaml.error.MarkedYAMLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class OrderEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
     UserProfileEntity userProfile;
-    @OneToMany()
+    @OneToMany(fetch = FetchType.LAZY)
     List<LaptopEntity> laptops = new ArrayList<LaptopEntity>();
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true)
     InvoiceEntity invoice;
