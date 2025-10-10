@@ -19,6 +19,7 @@ public class UserEntity {
     String username;
     @Column(name = "password")
     String password;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
     Role role;
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, optional = true)
