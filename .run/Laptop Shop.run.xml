@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Laptop Shop" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="LaptopShop" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.hsf.laptopshop.LaptopShopApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
