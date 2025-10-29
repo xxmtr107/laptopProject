@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "brands")
 @Getter
@@ -19,4 +21,7 @@ public class BrandEntity {
     int brandId;
     @Column(name = "brand_name", nullable = false, unique = true, length = 50)
     String brandName;
+
+    @OneToMany(mappedBy = "brand")
+    private Set<LaptopEntity> laptops;
 }

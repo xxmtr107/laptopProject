@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "laptop_series")
 @Getter
@@ -22,4 +24,7 @@ public class LaptopSeriesEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     BrandEntity brand;
+
+    @OneToMany(mappedBy = "series")
+    private Set<LaptopEntity> laptops;
 }

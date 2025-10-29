@@ -25,4 +25,12 @@ public class LaptopEntity {
     LaptopSeriesEntity laptopSeriesEntity;
     @Column(name = "stock", columnDefinition = "INT default 0")
     Integer stock;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private BrandEntity brand;
+
+    @ManyToOne
+    @JoinColumn(name = "series_id", nullable = false)
+    private LaptopSeriesEntity series;
 }
