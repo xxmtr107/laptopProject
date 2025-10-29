@@ -28,66 +28,66 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (brandService.count() > 0) {
-            return;
-        }
-
-        // Insert the Brand Entity
-        for (String brandName : BRANDS) {
-            BrandEntity br = new BrandEntity();
-            br.setBrandName(brandName);
-            brandService.createBrand(br);
-        }
-
-        // Insert the Series Entity
-        // 0. For Apple
-        for (String series : APPLE_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[0]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 1. For Dell
-        for (String series : DELL_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[1]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 2. For HP
-        for (String series : HP_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[2]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 3. For Lenovo
-        for (String series : LENOVO_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[3]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 4. For Asus
-        for (String series : ASUS_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[4]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 5. For Acer
-        for (String series : ACER_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[5]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
-        // 6. For MSI
-        for (String series : MSI_SERIES) {
-            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
-            seriesEntity.setSeriesName(series);
-            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[6]));
-            laptopSeriesService.createSeries(seriesEntity);
-        }
+//        if (brandService.count() > 0) {
+//            return;
+//        }
+//
+//        // Insert the Brand Entity
+//        for (String brandName : BRANDS) {
+//            BrandEntity br = new BrandEntity();
+//            br.setBrandName(brandName);
+//            brandService.createBrand(br);
+//        }
+//
+//        // Insert the Series Entity
+//        // 0. For Apple
+//        for (String series : APPLE_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[0]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 1. For Dell
+//        for (String series : DELL_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[1]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 2. For HP
+//        for (String series : HP_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[2]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 3. For Lenovo
+//        for (String series : LENOVO_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[3]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 4. For Asus
+//        for (String series : ASUS_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[4]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 5. For Acer
+//        for (String series : ACER_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[5]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
+//        // 6. For MSI
+//        for (String series : MSI_SERIES) {
+//            LaptopSeriesEntity seriesEntity = new LaptopSeriesEntity();
+//            seriesEntity.setSeriesName(series);
+//            seriesEntity.setBrand(brandService.getBrandEntityByBrandName(BRANDS[6]));
+//            laptopSeriesService.createSeries(seriesEntity);
+//        }
     }
 }
