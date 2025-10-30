@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ LaptopShop</title>
+    <!-- Link Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/homeGuest.css}">
+</head>
+<body style="background: #f6f7fb;">
+
+<!-- Banner carousel -->
+<div class="container-fluid px-0">
+    <div id="shopBanner" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="3500">
+                <img src="/img/laptop.jpg" class="d-block w-100" alt="Khuyến mãi 1" style="height:650px; object-fit:cover;">
+            </div>
+            <div class="carousel-item" data-bs-interval="3500">
+                <img src="/img/uudai.jpg" class="d-block w-100" alt="Ưu đãi sốc" style="height:650px; object-fit:cover;">
+            </div>
+            <div class="carousel-item" data-bs-interval="3500">
+                <img src="/img/Khuyenmai.jpg" class="d-block w-100" alt="Săn deal về máy" style="height:650px; object-fit:cover;">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#shopBanner" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#shopBanner" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Thông điệp -->
+<div class="container mb-3">
+    <div class="bg-primary bg-gradient rounded p-3 text-center text-white shadow-sm fw-bold fs-5">
+        Chào mừng bạn đến với LaptopShop! Khám phá các sản phẩm nổi bật và ưu đãi hấp dẫn.
+    </div>
+</div>
+
+<!-- Sản phẩm nổi bật -->
+<div class="container">
+    <h1 class="text-center mb-4 text-info fw-bold">Sản phẩm nổi bật</h1>
+    <div class="row g-4 justify-content-center">
+        <div th:each="laptop : ${featuredLaptops}" class="col-md-4 col-sm-6">
+            <div class="card shadow-lg rounded-4 h-100 text-center border-0">
+                <img th:src="${laptop.image}" th:alt="${laptop.name}" class="card-img-top p-3" style="height:140px;object-fit:contain;">
+                <div class="card-body">
+                    <h5 class="card-title text-primary fw-bold" th:text="${laptop.name}"></h5>
+                    <p class="card-text text-danger fs-6 fw-semibold"
+                       th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></p>
+                    <a class="btn btn-outline-info mt-2 px-4 fw-bold" th:href="@{'/product/' + ${laptop.laptopId}}">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Nút chuyển catalogue -->
+<div class="container text-center mt-4">
+    <a href="/catalogue" class="btn btn-lg btn-warning fw-bold px-5 shadow">Xem tất cả sản phẩm</a>
+</div>
+
+<!-- Giới thiệu shop -->
+<div class="container mt-5 mb-2">
+    <div class="bg-white rounded-4 shadow-sm p-4 text-center">
+        <h2 class="text-info mb-2 fw-bold">Về LaptopShop</h2>
+        <p class="fs-6">Chuyên cung cấp laptop chất lượng, giá tốt. Đội ngũ tư vấn nhiệt tình, bảo hành uy tín, ship toàn quốc.</p>
+    </div>
+</div>
+
+<!-- Bootstrap JS (nếu cần carousel tự động) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

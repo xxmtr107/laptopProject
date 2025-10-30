@@ -1,0 +1,163 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    margin: 0; padding: 0;
+}
+
+/* Banner slider full width */
+.slider-wrapper {
+    width: 100vw;
+    max-width: 100%;
+    overflow: hidden;
+    margin-bottom: 18px;
+    position: relative;
+}
+.slider {
+    display: flex;
+    animation: slideBanner 14s infinite linear;
+}
+.slider img {
+    width: 100vw;              /* Banner phủ hết chiều ngang màn hình */
+    max-width: 100vw;
+    height: 188px;             /* Banner lớn rực rỡ */
+    object-fit: cover;
+    border-radius: 0;          /* Banner full không bo góc */
+    margin: 0;
+    box-shadow: 0 2px 18px #a8c4e2;
+    border: none;
+}
+@keyframes slideBanner {
+    0% { transform: translateX(0);}
+    33% { transform: translateX(-100vw);}
+    66% { transform: translateX(-200vw);}
+    100% { transform: translateX(0);}
+}
+
+.banner {
+    background: #2980b9;
+    color: #fff;
+    padding: 16px;
+    text-align: center;
+    font-size: 1.15em;
+    margin-bottom: 18px;
+    border-radius: 7px;
+    box-shadow: 0 1px 7px #d7e7ff;
+}
+
+h1 {
+    color: #036ae4;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.featured-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin: 32px auto;
+    max-width: 1100px;
+    justify-items: center;
+}
+
+.laptop-card {
+    background: linear-gradient(145deg, #f0f6ff 80%, #cfe2fd 120%);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px #e3eefd, 0 2px 10px #aed1fa;
+    width: 290px;
+    padding: 22px 12px 18px 12px;
+    display: flex; flex-direction: column; align-items: center;
+    border: 2px solid #b2d7fa;
+    transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
+    position: relative;
+}
+.laptop-card:hover {
+    box-shadow: 0 12px 36px #57a7ed88, 0 2px 18px #75c4fa;
+    transform: translateY(-4px) scale(1.045);
+    border: 2.5px solid #2c84e0;
+}
+
+.laptop-card img {
+    max-width: 160px;
+    height: 112px;
+    object-fit: contain;
+    margin-bottom: 16px;
+    border-radius: 11px;
+    border: 2px solid #dbefff;
+    box-shadow: 0 1px 8px #eaf6fd;
+    background: #eff7ff;
+    transition: box-shadow 0.18s, border 0.18s;
+}
+
+.laptop-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #136ebf;
+    font-size: 1.08em;
+    text-align: center;
+    letter-spacing: 1.5px;
+}
+
+.laptop-price {
+    color: #e74c3c;
+    font-size: 1.04em;
+    margin-bottom: 10px;
+    font-weight: bold;
+    background: #deecff;
+    padding: 3px 10px;
+    border-radius: 7px;
+}
+
+.detail-link {
+    margin-top: 7px;
+    color: #036ae4;
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 1em;
+    background: #f0f6ff;
+    border-radius: 5px;
+    padding: 4px 10px;
+    transition: background 0.12s;
+}
+.detail-link:hover {
+    background: #d6e8ff;
+    color: #e74c3c;
+}
+
+.btn-catalogue {
+    background: #0066cc;
+    color: #fff;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.18em;
+    transition: box-shadow 0.18s, background 0.18s;
+    border: none;
+    box-shadow: 0 4px 14px #dde;
+}
+.btn-catalogue:hover { background: #003d80; box-shadow: 0 6px 18px #abd1fc;}
+
+.shop-intro {
+    background: #fff;
+    border-radius: 10px;
+    margin: 32px auto;
+    max-width: 920px;
+    padding: 26px;
+    box-shadow: 0 0 18px #e3eafd;
+    text-align: center;
+}
+.shop-intro h2 { color: #036ae4; margin-bottom: 10px;}
+
+@media (max-width: 1100px) {
+    .featured-container { grid-template-columns: 1fr 1fr; max-width: 92vw; }
+    .laptop-card { width: 94vw; }
+}
+@media (max-width: 700px) {
+    .featured-container { grid-template-columns: 1fr; max-width: 99vw; }
+    .laptop-card { width: 97vw; }
+    .slider img { height: 84px;}
+    h1 { font-size: 1.07em;}
+}
