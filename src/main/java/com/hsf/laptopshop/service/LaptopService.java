@@ -63,4 +63,10 @@ public interface LaptopService {
      * Xóa một sản phẩm Laptop theo ID.
      */
     void deleteLaptop(Integer id);
+
+
+    /**
+     * Lấy danh sách laptop nổi bật để hiển thị trên trang chủ.
+     */
+    List<LaptopEntity> findFeaturedLaptops();
 }

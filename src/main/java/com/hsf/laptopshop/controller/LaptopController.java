@@ -29,7 +29,7 @@ public class LaptopController {
      * URL: /
      * Chấp nhận các tham số filter và phân trang
      */
-    @GetMapping("/")
+    @GetMapping("/catalogue")
     public String showCataloguePage(
             Model model,
             @RequestParam(name = "page", defaultValue = "0") int page,

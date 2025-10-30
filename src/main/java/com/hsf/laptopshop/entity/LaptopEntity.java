@@ -29,6 +29,9 @@ public class LaptopEntity {
     String description;
     Integer stock;
 
+    @Column(name = "featured")
+    Boolean featured; //  Sản phẩm nổi bật (true/false)
+
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
     BrandEntity brand;
