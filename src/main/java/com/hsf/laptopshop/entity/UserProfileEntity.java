@@ -1,10 +1,7 @@
 package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -13,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class UserProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

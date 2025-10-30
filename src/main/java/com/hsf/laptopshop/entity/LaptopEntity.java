@@ -3,8 +3,11 @@ package com.hsf.laptopshop.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "laptops")
@@ -28,6 +31,12 @@ public class LaptopEntity {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     String description;
     Integer stock;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
