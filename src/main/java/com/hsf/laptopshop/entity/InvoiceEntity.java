@@ -19,4 +19,6 @@ public class InvoiceEntity {
     OrderEntity order;
     @Column(name = "total_amount")
     Double totalAmount;
+    @Column(name = "status")
+    String status;
 }
