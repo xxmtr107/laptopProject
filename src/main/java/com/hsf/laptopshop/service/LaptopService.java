@@ -69,4 +69,9 @@ public interface LaptopService {
      * Lấy danh sách laptop nổi bật để hiển thị trên trang chủ.
      */
     List<LaptopEntity> findFeaturedLaptops();
+
+    /**
+     * Đếm tổng số sản phẩm Laptop.
+     */
+    long count();
 }

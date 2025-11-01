@@ -1,37 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Header - LaptopShop</title>
-    <!-- Link Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
-<!-- templates/fragments/header.html -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3" th:fragment="navbar">
     <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="/">LaptopShop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Logo thương hiệu -->
+        <a class="navbar-brand fw-bold text-primary" th:href="@{/}">LaptopShop</a>
+        <!-- Menu chính -->
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/catalogue">Catalogue</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/catalogue}">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/about}">Giới thiệu</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Liên hệ</a></li>
             </ul>
+
+            <!-- Menu phải: login/register -->
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                <!-- Nếu đã login, hiển thị Profile, Logout bằng Thymeleaf conditions -->
+                <li class="nav-item">
+                    <!-- Nút Đăng nhập:
+                        - btn btn-outline-primary: nút viền xanh, chữ xanh, hover nền xanh nhẹ.
+                        - rounded-pill: bo tròn đầy, hiện đại & rõ nút.
+                        - me-2: margin phải cách nút tiếp theo ra (spacing).
+                    -->
+                    <a class="btn btn-outline-primary rounded-pill me-2" th:href="@{/login}">Đăng nhập</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Nút Đăng ký:
+                        - btn btn-primary: nút nền xanh, chữ trắng
+                        - rounded-pill: bo tròn đầy
+                    -->
+                    <a class="btn btn-primary rounded-pill" th:href="@{/register}">Đăng ký</a>
+                </li>
+
             </ul>
         </div>
     </div>
 </nav>
-<!-- Bootstrap JS if needed -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>

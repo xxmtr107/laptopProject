@@ -98,4 +98,9 @@ public class LaptopServiceImpl implements LaptopService {
     public List<LaptopEntity> findFeaturedLaptops() {
         return laptopRepository.findByFeaturedTrue();
     }
+
+    @Override
+    public long count() {
+        return laptopRepository.count();
+    }
 }
