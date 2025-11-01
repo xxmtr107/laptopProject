@@ -6,21 +6,17 @@ import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "user_profiles")
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class UserProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_profile_id")
-    Long id;
+    private Long id;
     @OneToOne
     @JoinColumn(name = "user_id")
-    UserEntity user;
+    private UserEntity user;
     @Column(name = "full_name")
-    String fullName;
+    private String fullName;
     @Column(name = "phone", nullable = false, length = 10)
-    String phone;
+    private String phone;
 }

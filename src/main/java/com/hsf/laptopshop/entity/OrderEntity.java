@@ -12,32 +12,37 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "orders")
 @Entity
+@Table(name = "orders")
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class OrderEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     Long orderId;
-
+    
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
     UserProfileEntity userProfile;
-
+    
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true)
     InvoiceEntity invoice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<OrderItemEntity> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderLaptop> orderLaptops = new ArrayList<>();
+
+    public void removeLaptop(OrderLaptop orderLaptop) {
+        orderLaptops.remove(orderLaptop);
+        orderLaptop.setOrder(null);
+    }
+
 }

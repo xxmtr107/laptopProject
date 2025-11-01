@@ -8,12 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "laptop_series")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
+@Data
 public class LaptopSeriesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

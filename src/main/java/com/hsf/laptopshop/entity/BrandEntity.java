@@ -8,12 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "brands")
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
+@Data
 public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

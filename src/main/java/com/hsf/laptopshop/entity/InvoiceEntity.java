@@ -5,10 +5,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Table(name = "invoices")
 @Entity
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +19,7 @@ public class InvoiceEntity {
     @JoinColumn(name = "order_id")
     OrderEntity order;
     @Column(name = "total_amount")
-    Double totalAmount;
+    BigDecimal totalAmount;
+    @Column(name = "status")
+    String status;
 }

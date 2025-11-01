@@ -16,4 +16,5 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Long> {
             "GROUP BY FUNCTION('MONTH', i.order.createdAt) " +
             "ORDER BY FUNCTION('MONTH', i.order.createdAt) ASC")
     List<RevenueByMonthProjection> findRevenueByMonth(LocalDateTime startDate, LocalDateTime endDate);
+
 }

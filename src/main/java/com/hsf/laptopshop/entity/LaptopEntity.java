@@ -2,20 +2,17 @@ package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "laptops")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LaptopEntity {
     @Id
     @Column(name = "laptop_id")
