@@ -1,3 +1,8 @@
+-- DELETE FROM laptop_series;
+-- DELETE FROM brands;
+--
+-- DBCC CHECKIDENT ('brands', RESEED, 0);
+
 -- CHÈN DỮ LIỆU CHO BRANDS (HÃNG)
 INSERT INTO brands (brand_name) VALUES
                                     (N'Apple'), (N'Dell'), (N'HP'), (N'Lenovo'), (N'Asus'), (N'Acer'), (N'MSI');
@@ -40,3 +45,22 @@ INSERT INTO laptops (name, price, image, description, stock, brand_id, series_id
                                                                                       (N'Acer Nitro 5 Gaming AN515 58', 21490000, 'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_d_i_7_4.png', N'<p>Laptop gaming quốc dân, p/p tốt, RTX 3050.</p>', 55, 6, 28,1),
                                                                                       (N'MSI Modern 14 C13M', 13490000, 'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_2__2_51.png', N'<p>Mỏng nhẹ, vỏ nhôm, cấu hình i5 Gen 13 mới.</p>', 48, 7, 32, 1),
                                                                                       (N'MSI Katana GF66 12UCK', 17990000, 'https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/t/h/thi_t_k_ch_a_c_t_n_1_2.png', N'<p>Thiết kế gaming, bàn phím LED đỏ, RTX 3050.</p>', 45, 7, 31, 0);
+
+
+
+-- Promotion
+INSERT INTO promotions (code, description, discount_amount, discount_percent, min_order, max_uses, start_date, end_date, active)
+VALUES
+    (N'BLACK123', N'Black Friday giảm 200k cho mọi khách hàng. Duy nhất tháng 11!', 200000, NULL, 1000000, 99, '2025-11-01 00:00:00', '2025-11-30 23:59:00', 1),
+    (N'FREESHIP', N'Freeship toàn quốc cho đơn trên 500k.', 50000, NULL, 500000, 200, '2025-11-01 00:00:00', '2025-11-15 23:59:00', 1),
+    (N'SALE10', N'Giảm thẳng 10% cho đơn hàng bất kỳ từ 1 triệu.', NULL, 10, 1000000, 50, '2025-11-01 00:00:00', '2025-12-01 00:00:00', 1),
+    (N'MINIGAME', N'Tặng ngay 100.000đ cho đơn minigame sự kiện.', 100000, NULL, 700000, 10, '2025-11-02 00:00:00', '2025-11-05 23:59:00', 1),
+    (N'VIPSALE', N'Khách hàng VIP giảm 500.000đ cho hóa đơn trên 8 triệu.', 500000, NULL, 8000000, 30, '2025-11-01 00:00:00', '2025-12-01 00:00:00', 1),
+    (N'STUDENT', N'Sinh viên nhập mã nhận ngay 5% giảm giá.', NULL, 5, 4000000, 40, '2025-11-01 00:00:00', '2025-11-30 23:59:00', 1),
+    (N'HOTDEAL', N'Hot deal giảm giá sốc 150.000đ cho mọi đơn hàng – số lượng có hạn!', 150000, NULL, 0, 88, '2025-11-05 00:00:00', '2025-11-20 23:59:00', 1),
+    (N'NEWUSER', N'Khách mới đăng ký giảm ngay 80k cho đơn đầu tiên.', 80000, NULL, 350000, 50, '2025-11-01 00:00:00', '2025-12-31 23:59:00', 1),
+    (N'FLASH50', N'Flash Sale sốc giảm 50% chỉ trong 3 ngày!', NULL, 50, 2000000, 20, '2025-11-10 00:00:00', '2025-11-12 23:59:00', 1),
+    (N'SHIPZERO', N'Miễn phí vận chuyển mọi đơn hàng, không giới hạn giá trị.', 30000, NULL, 0, 500, '2025-11-05 00:00:00', '2025-12-05 23:59:00', 1);
+
+-- Dữ liệu cho bảng nhiều-nhiều
+INSERT INTO promotion_laptops (laptop_id, promotion_id) VALUES (1, 1), (2, 2), (3, 1), (3, 3), (4, 5);

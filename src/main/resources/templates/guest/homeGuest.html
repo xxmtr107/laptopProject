@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang Chủ LaptopShop</title>
-    <!-- Link Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/homeGuest.css}">
 </head>
 <body style="background: #f6f7fb;">
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: navbar}"></div>
 
 <!-- Banner carousel -->
 <div class="container-fluid px-0">
@@ -43,13 +45,38 @@
 <div class="container">
     <h1 class="text-center mb-4 text-info fw-bold">Sản phẩm nổi bật</h1>
     <div class="row g-4 justify-content-center">
-        <div th:each="laptop : ${featuredLaptops}" class="col-md-4 col-sm-6">
+        <div th:each="laptop : ${featuredLaptops}" class="col-md-4 col-sm-6 position-relative">
             <div class="card shadow-lg rounded-4 h-100 text-center border-0">
+                <!-- Badge giảm giá (tiền mặt hoặc %) -->
+                <span th:if="${laptop.promotions != null and !#lists.isEmpty(laptop.promotions)}"
+                      class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2 fs-6"
+                      th:text="${laptop.promotions[0].discountAmount != null && laptop.promotions[0].discountAmount > 0
+                        ? 'Giảm ' + #numbers.formatDecimal(laptop.promotions[0].discountAmount, 0, 'POINT', 0, 'COMMA') + '₫'
+                        : (laptop.promotions[0].discountPercent != null && laptop.promotions[0].discountPercent > 0
+                           ? 'Giảm ' + laptop.promotions[0].discountPercent + '%'
+                           : '')}">
+                </span>
                 <img th:src="${laptop.image}" th:alt="${laptop.name}" class="card-img-top p-3" style="height:140px;object-fit:contain;">
                 <div class="card-body">
                     <h5 class="card-title text-primary fw-bold" th:text="${laptop.name}"></h5>
-                    <p class="card-text text-danger fs-6 fw-semibold"
-                       th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></p>
+                    <!-- Giá sau giảm, giá gốc (có hoặc không khuyến mãi) -->
+                    <div th:if="${laptop.promotions != null and !#lists.isEmpty(laptop.promotions)}">
+                        <span class="card-text text-danger fs-5 fw-bold"
+                              th:text="${
+                                laptop.promotions[0].discountAmount != null && laptop.promotions[0].discountAmount > 0
+                                  ? #numbers.formatDecimal(laptop.price - laptop.promotions[0].discountAmount, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                  : (laptop.promotions[0].discountPercent != null && laptop.promotions[0].discountPercent > 0
+                                    ? #numbers.formatDecimal(laptop.price * (100 - laptop.promotions[0].discountPercent) / 100, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                    : #numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                  )
+                              }"></span>
+                        <span class="text-decoration-line-through text-secondary ms-2"
+                              th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></span>
+                    </div>
+                    <div th:if="${laptop.promotions == null or #lists.isEmpty(laptop.promotions)}">
+                        <span class="card-text text-danger fs-5 fw-bold"
+                              th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></span>
+                    </div>
                     <a class="btn btn-outline-info mt-2 px-4 fw-bold" th:href="@{'/product/' + ${laptop.laptopId}}">Xem chi tiết</a>
                 </div>
             </div>
@@ -70,9 +97,8 @@
     </div>
 </div>
 
-<!-- Bootstrap JS (nếu cần carousel tự động) -->
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </body>
 </html>

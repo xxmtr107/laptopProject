@@ -25,4 +25,20 @@ public class HomeController {
         // Trả về template 'homeGuest.html' trong thư mục templates
         return "/guest/homeGuest";
     }
+
+    // Trang giới thiệu
+    @GetMapping("/about")
+    public String about() {
+        return "/guest/about";
+    }
+
+
+
+    // Trang liên hệ
+    @GetMapping("/contact")
+    public String contact() {
+        return "/guest/contact";
+    }
+
+
 }
