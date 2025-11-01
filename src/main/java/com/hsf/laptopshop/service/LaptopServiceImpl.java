@@ -94,15 +94,14 @@ public class LaptopServiceImpl implements LaptopService {
         laptopRepository.deleteById(id);
     }
 
+
+    //Guest
     @Override
     public List<LaptopEntity> findFeaturedLaptops() {
         return laptopRepository.findByFeaturedTrue();
-<<<<<<< HEAD
-
-=======
->>>>>>> Guest
     }
 
+    //Guest
     @Override
     public long count() {
         return laptopRepository.count();

@@ -1,7 +1,3 @@
--- DELETE FROM laptop_series;
--- DELETE FROM brands;
---
--- DBCC CHECKIDENT ('brands', RESEED, 0);
 
 -- CHÈN DỮ LIỆU CHO BRANDS (HÃNG)
 INSERT INTO brands (brand_name) VALUES
