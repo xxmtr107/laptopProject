@@ -97,7 +97,10 @@ public class LaptopServiceImpl implements LaptopService {
     @Override
     public List<LaptopEntity> findFeaturedLaptops() {
         return laptopRepository.findByFeaturedTrue();
+<<<<<<< HEAD
 
+=======
+>>>>>>> Guest
     }
 
     @Override

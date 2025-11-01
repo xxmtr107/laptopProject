@@ -1,0 +1,59 @@
+.card.laptop-featured {
+    border-radius: 18px;
+    border: 3px solid #fbad17;
+    box-shadow: 0 8px 34px #f7be8090, 0 2px 8px #fa6c24;
+    transition: box-shadow 0.16s, border 0.18s, transform 0.12s;
+    position: relative;
+    overflow: visible;
+}
+.card.laptop-featured:hover {
+    box-shadow: 0 18px 60px #f79e1c3a, 0 5px 19px #00acee99;
+    border-color: #f25510;
+    transform: translateY(-4px) scale(1.045);
+}
+.card-img-top.product {
+    width: 220px;
+    height: 160px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    border: 2px solid #fadca7;
+    background: #fffaf3;
+}
+.badge.discount {
+    left: 18px; top: 18px;
+    background: linear-gradient(90deg, #fc4a1a, #f7b733 80%);
+    color: #fff;
+    padding: 9px 22px;
+    border-radius: 16px;
+    font-weight: bold;
+    box-shadow: 0 1px 6px #fa7c1555;
+    font-size: 1.03em;
+}
+.btn.product-detail {
+    background: linear-gradient(95deg,#ffd700 15%,#f79e1f 80%);
+    color: #b04400; font-weight: bold;
+    border-radius: 7px; padding: 8px 22px; font-size: 1.07em;
+    margin-top: 8px;
+}
+.btn.product-detail:hover {
+    background: linear-gradient(95deg,#f25510,#fae124 120%);
+    color: #fff200;
+    box-shadow: 0 4px 16px #ffd079;
+}
+/* Thẻ giảm giá nổi trên đầu card */
+.discount-tag {
+    position: absolute;
+    top: -19px; left: 16px;
+    background: #ff2f0d;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.05em;
+    z-index: 5;
+    padding: 5px 22px 6px 22px;
+    border-radius: 13px 13px 13px 0;
+    box-shadow: 0 4px 17px #fc4a1a55, 0 0 8px #fff1;
+    border: 2.5px solid #fbe210;
+    letter-spacing: 1.5px;
+}
+

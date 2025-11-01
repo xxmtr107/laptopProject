@@ -64,7 +64,14 @@ public interface LaptopService {
      */
     void deleteLaptop(Integer id);
 
+<<<<<<< HEAD
     //tính năng
+=======
+
+    /**
+     * Lấy danh sách laptop nổi bật để hiển thị trên trang chủ.
+     */
+>>>>>>> Guest
     List<LaptopEntity> findFeaturedLaptops();
 
     /**
