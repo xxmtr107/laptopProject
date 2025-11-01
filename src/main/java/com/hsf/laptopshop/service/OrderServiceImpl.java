@@ -6,6 +6,7 @@ import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderLaptopRepository orderLaptopRepository;
     @Autowired
     private LaptopRepository laptopRepository;
+    @Autowired
+    private InvoiceRepository invoiceRepository;
 
 
     @Override
@@ -63,6 +66,25 @@ public class OrderServiceImpl implements OrderService {
         order.removeLaptop(orderLaptop);
         orderLaptopRepository.delete(orderLaptop);
         orderRepository.save(order);
+    }
+
+    @Override
+    public BigDecimal calculateTotal(OrderEntity order) {
+        BigDecimal total = order.getOrderLaptops().stream()
+                .map(ol -> ol.getLaptop().getPrice()
+                        .multiply(BigDecimal.valueOf(ol.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        InvoiceEntity invoice = order.getInvoice();
+        if (invoice == null) {
+            invoice = new InvoiceEntity();
+            invoice.setOrder(order);
+        }
+
+        invoice.setTotalAmount(total);
+        invoice.setStatus("Unpaid");
+        invoiceRepository.save(invoice);
+        return total;
     }
 
 }

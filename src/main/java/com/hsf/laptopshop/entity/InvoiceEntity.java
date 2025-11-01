@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Table(name = "invoices")
 @Entity
 @Data
@@ -17,7 +19,7 @@ public class InvoiceEntity {
     @JoinColumn(name = "order_id")
     OrderEntity order;
     @Column(name = "total_amount")
-    Double totalAmount;
+    BigDecimal totalAmount;
     @Column(name = "status")
     String status;
 }

@@ -5,7 +5,6 @@ import com.hsf.laptopshop.entity.UserProfileEntity;
 import com.hsf.laptopshop.repository.UserProfileRepository;
 import com.hsf.laptopshop.service.OrderService;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +25,12 @@ public class OrderController {
     @GetMapping("/view")
     public String viewCart(Model model,
                            HttpSession session) {
-//        Long userId = (Long) session.getAttribute("userId");
-        Long userId = 1L; // Temporary hardcoded user ID for testing
+        Long userId = (Long) session.getAttribute("userId");
+        //Long userId = 1L; // Temporary hardcoded user ID for testing
         UserProfileEntity user = userProfileRepository.findById(userId).get();
         System.out.println("user: " + user.getFullName());
         OrderEntity order = orderService.getOrCreateCart(user);
+        model.addAttribute("total", orderService.calculateTotal(order));
         model.addAttribute("order", order);
         return "cart";
     }
@@ -39,8 +39,8 @@ public class OrderController {
     public String addToCart(@PathVariable("id") int laptopId,
                             HttpSession session,
                             RedirectAttributes redirectAttributes) {
-//        Long userId = (Long) session.getAttribute("userId");
-        Long userId = 1L; // Temporary hardcoded user ID for testing
+        Long userId = (Long) session.getAttribute("userId");
+        //Long userId = 1L; // Temporary hardcoded user ID for testing
         UserProfileEntity user = userProfileRepository.findById(userId).get();
         orderService.addtoCart(user, laptopId);
         redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");

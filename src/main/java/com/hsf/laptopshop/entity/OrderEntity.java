@@ -30,4 +30,5 @@ public class OrderEntity {
         orderLaptops.remove(orderLaptop);
         orderLaptop.setOrder(null);
     }
+
 }
