@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/cart")
 public class OrderController {
     @Autowired
@@ -24,11 +23,13 @@ public class OrderController {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
-    @GetMapping
+    @GetMapping("/view")
     public String viewCart(Model model,
                            HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
+//        Long userId = (Long) session.getAttribute("userId");
+        Long userId = 1L; // Temporary hardcoded user ID for testing
         UserProfileEntity user = userProfileRepository.findById(userId).get();
+        System.out.println("user: " + user.getFullName());
         OrderEntity order = orderService.getOrCreateCart(user);
         model.addAttribute("order", order);
         return "cart";
@@ -36,11 +37,14 @@ public class OrderController {
 
     @GetMapping("/add/{id}")
     public String addToCart(@PathVariable("id") int laptopId,
-                            HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
+                            HttpSession session,
+                            RedirectAttributes redirectAttributes) {
+//        Long userId = (Long) session.getAttribute("userId");
+        Long userId = 1L; // Temporary hardcoded user ID for testing
         UserProfileEntity user = userProfileRepository.findById(userId).get();
         orderService.addtoCart(user, laptopId);
-        return "redirect:/product-detail";
+        redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");
+        return "redirect:/product/" + laptopId;
     }
 
     @PostMapping("/remove/{orderId}/{laptopId}")
@@ -49,6 +53,6 @@ public class OrderController {
                                  RedirectAttributes redirectAttributes) {
         orderService.cancelOrder(orderId, laptopId);
         redirectAttributes.addFlashAttribute("message", "Item removed from cart successfully.");
-        return "redirect:/cart";
+        return "redirect:/cart/view";
     }
 }

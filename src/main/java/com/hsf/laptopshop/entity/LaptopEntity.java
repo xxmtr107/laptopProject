@@ -9,11 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "laptops")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LaptopEntity {
     @Id
     @Column(name = "laptop_id")

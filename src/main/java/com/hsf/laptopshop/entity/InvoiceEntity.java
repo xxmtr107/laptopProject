@@ -8,7 +8,6 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "invoices")
 @Entity
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

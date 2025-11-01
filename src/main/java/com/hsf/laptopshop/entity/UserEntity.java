@@ -8,10 +8,6 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "users")
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
