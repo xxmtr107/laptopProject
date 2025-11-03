@@ -331,7 +331,9 @@
                 <span class="summary-label">Total</span>
                 <span class="summary-value">$0.00</span>
             </div>
-            <button class="checkout-btn">Proceed to Checkout</button>
+            <form th:action="@{/payments/create/{orderId}(orderId=${order.orderId})}" method="post">
+                <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+            </form>
             <button class="continue-shopping">Continue Shopping</button>
         </div>
     </div>

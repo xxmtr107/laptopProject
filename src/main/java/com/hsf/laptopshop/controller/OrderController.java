@@ -25,14 +25,18 @@ public class OrderController {
     @GetMapping("/view")
     public String viewCart(Model model,
                            HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        //Long userId = 1L; // Temporary hardcoded user ID for testing
-        UserProfileEntity user = userProfileRepository.findById(userId).get();
-        System.out.println("user: " + user.getFullName());
-        OrderEntity order = orderService.getOrCreateCart(user);
-        model.addAttribute("total", orderService.calculateTotal(order));
-        model.addAttribute("order", order);
-        return "cart";
+        //Long userId = (Long) session.getAttribute("userId");
+        Long userId = 1L; // Temporary hardcoded user ID for testing
+        if(userId == null) {
+            return "redirect:/login";
+        } else {
+            UserProfileEntity user = userProfileRepository.findById(userId).get();
+            OrderEntity order = orderService.getOrCreateCart(user);
+            model.addAttribute("total", orderService.calculateTotal(order));
+            model.addAttribute("order", order);
+            return "cart";
+        }
+
     }
 
     @GetMapping("/add/{id}")
@@ -41,10 +45,15 @@ public class OrderController {
                             RedirectAttributes redirectAttributes) {
         Long userId = (Long) session.getAttribute("userId");
         //Long userId = 1L; // Temporary hardcoded user ID for testing
-        UserProfileEntity user = userProfileRepository.findById(userId).get();
-        orderService.addtoCart(user, laptopId);
-        redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");
-        return "redirect:/product/" + laptopId;
+        if(userId == null) {
+            return "redirect:/login";
+        } else {
+            UserProfileEntity user = userProfileRepository.findById(userId).get();
+            orderService.addtoCart(user, laptopId);
+            redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");
+            return "redirect:/product/" + laptopId;
+        }
+
     }
 
     @PostMapping("/remove/{orderId}/{laptopId}")
@@ -55,4 +64,13 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("message", "Item removed from cart successfully.");
         return "redirect:/cart/view";
     }
+
+//    @GetMapping("checkout/{orderId}")
+//    public String checkout(@PathVariable("orderId") Long orderId,
+//                           Model model) {
+//        OrderEntity order = orderService.getOrderById(orderId);
+//        model.addAttribute("order", order);
+//        model.addAttribute("total", orderService.calculateTotal(order));
+//        return "checkout";
+//    }
 }
