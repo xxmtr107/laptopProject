@@ -25,8 +25,8 @@ public class OrderController {
     @GetMapping("/view")
     public String viewCart(Model model,
                            HttpSession session) {
-        //Long userId = (Long) session.getAttribute("userId");
-        Long userId = 1L; // Temporary hardcoded user ID for testing
+        Long userId = (Long) session.getAttribute("userId");
+        //Long userId = 1L; // Temporary hardcoded user ID for testing
         if(userId == null) {
             return "redirect:/login";
         } else {
