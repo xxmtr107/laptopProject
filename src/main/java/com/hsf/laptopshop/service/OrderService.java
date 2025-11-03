@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public interface OrderService {
+    public OrderEntity getOrderById(Long orderId);
     public OrderEntity getOrCreateCart(UserProfileEntity userProfile);
     public void addtoCart(UserProfileEntity userProfile, int laptopId);
     public void cancelOrder(Long orderId, Integer laptopId);
