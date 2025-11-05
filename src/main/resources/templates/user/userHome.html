@@ -67,7 +67,7 @@
 <body style="background: #f6f7fb;">
 
 <!-- Header -->
-<div th:replace="~{fragments/header :: navbar}"></div>
+<div th:replace="~{fragments/headerCust :: navbar}"></div>
 
 <!-- Banner carousel -->
 <div class="container-fluid px-0">
@@ -95,10 +95,9 @@
 <!-- Thông điệp -->
 <div class="container mb-3">
     <div class="bg-primary bg-gradient rounded p-3 text-center text-white shadow-sm fw-bold fs-5">
-        Chào mừng bạn đến với LaptopShop! Hãy khám phá các sản phẩm nổi bật cùng với ưu đãi hấp dẫn nhé !!!
+        🌟 Chào mừng bạn đến với LaptopShop! Hãy để chúng tôi mang đến cho bạn những chiếc laptop yêu thích và trải nghiệm mua sắm tuyệt vời! 💻💖
     </div>
 </div>
-
 
 <!-- Box thống kê nhỏ -->
 <div class="container my-4">
@@ -190,7 +189,7 @@
                     </div>
 
                     <!-- Nút chuyển tới trang chi tiết sản phẩm -->
-                    <a class="btn product-detail fw-bold px-4 mt-2" th:href="@{'/product/' + ${laptop.laptopId}}">Xem chi tiết</a>
+                    <a class="btn product-detail fw-bold px-4 mt-2" th:href="@{'/user/product/' + ${laptop.laptopId}}">Xem chi tiết</a>
                 </div>
             </div>
         </div>
@@ -200,23 +199,26 @@
 
 <!-- Nút chuyển catalogue -->
 <div class="container text-center mt-4">
-    <a href="/catalogue" class="btn btn-lg btn-warning fw-bold px-5 shadow">Xem tất cả sản phẩm</a>
+    <a href="/user/products" class="btn btn-lg btn-warning fw-bold px-5 shadow">Xem tất cả sản phẩm</a>
 </div>
 
-<!-- Giới thiệu shop -->
+<!-- Giới thiệu shop dành cho khách hàng -->
 <div class="container my-5">
     <div class="bg-light rounded-4 shadow p-5 text-center">
-        <h2 class="text-info fw-bold mb-3">Về LaptopShop</h2>
+        <h2 class="text-info fw-bold mb-3">Về LaptopShop 💻✨</h2>
         <hr class="w-25 mx-auto mb-4 border-info opacity-75">
         <p class="fs-5 text-secondary mb-0">
-            <strong>LaptopShop</strong> tự hào là điểm đến tin cậy cho những ai đang tìm kiếm
-            <span class="text-dark">laptop chính hãng, chất lượng cao</span> với mức giá tốt nhất.
-            <br>Chúng tôi mang đến <span class="fw-semibold text-dark">dịch vụ tư vấn tận tâm</span>,
-            <span class="fw-semibold text-dark">bảo hành uy tín</span> và <span class="fw-semibold text-dark">giao hàng toàn quốc</span> —
-            giúp bạn dễ dàng sở hữu chiếc laptop phù hợp cho học tập, làm việc và giải trí.
+            <strong>Chào mừng bạn đến với trang khách hàng của LaptopShop! 🎉</strong>
+            Đây là nơi bạn có thể khám phá <span class="text-dark">các sản phẩm laptop chính hãng, chất lượng cao 🖥️</span>
+            với mức giá tốt nhất và ưu đãi đặc biệt dành riêng cho khách hàng 🎁.
+            <br>Chúng tôi luôn<span class="fw-semibold text-dark">tư vấn tận tâm 💬</span>,
+            <span class="fw-semibold text-dark">bảo hành uy tín 🛡️</span> và <span class="fw-semibold text-dark">giao hàng toàn quốc 🚚</span> —
+            giúp bạn dễ dàng sở hữu chiếc laptop phù hợp cho học tập, làm việc và giải trí 🎮🎓.
+            Hãy tận hưởng trải nghiệm mua sắm tiện lợi, nhanh chóng ngay tại trang khách hàng này 🛍️💖!
         </p>
     </div>
 </div>
+
 <!-- Footer -->
 <!--
     Chèn (thay thế) nội dung của fragment 'footer' từ file fragments/footer.html vào vị trí này.

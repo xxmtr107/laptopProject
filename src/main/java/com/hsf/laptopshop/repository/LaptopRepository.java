@@ -16,5 +16,4 @@ public interface LaptopRepository extends JpaRepository<LaptopEntity, Integer> {
 
     // lấy laptop nổi bật
     List<LaptopEntity> findByFeaturedTrue();
-
 }

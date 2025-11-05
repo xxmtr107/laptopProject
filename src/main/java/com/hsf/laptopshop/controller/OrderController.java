@@ -44,7 +44,7 @@ public class OrderController {
         UserProfileEntity user = userProfileRepository.findById(userId).get();
         orderService.addtoCart(user, laptopId);
         redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");
-        return "redirect:/product/" + laptopId;
+        return "redirect:/user/product/" + laptopId;
     }
 
     @PostMapping("/remove/{orderId}/{laptopId}")
@@ -56,3 +56,4 @@ public class OrderController {
         return "redirect:/cart/view";
     }
 }
+
