@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 @Table(name = "invoices")
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class InvoiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

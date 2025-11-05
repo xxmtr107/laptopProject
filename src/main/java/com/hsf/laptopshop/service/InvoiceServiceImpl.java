@@ -21,7 +21,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceEntity invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new RuntimeException("Invoice not found"));
         OrderEntity order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                        .orElseThrow(() -> new RuntimeException("Order not found"));
         invoice.setOrder(order);
         invoice.setStatus("PAID");
         invoice.setTotalAmount(amount);

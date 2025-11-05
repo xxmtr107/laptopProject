@@ -44,7 +44,7 @@ public class PaymentServiceImpl implements PaymentService{
         Map<String, String> vnp_ParamsMap = vnpayConfig.getVnPayConfig();
         vnp_ParamsMap.put("vnp_Amount", String.valueOf(amount));
         vnp_ParamsMap.put("vnp_IpAddr", "127.0.0.1");
-        vnp_ParamsMap.put("vnp_TxnRef", invoice.getInvoiceId().toString()+PaymentConfig.getRandomNumber(8));
+        vnp_ParamsMap.put("vnp_TxnRef", invoice.getInvoiceId().toString());
         vnp_ParamsMap.put("vnp_OrderInfo", "Pay order " + orderInfo.getOrderId());
         vnp_ParamsMap.put("vnp_OrderType", "billpayment");
         vnp_ParamsMap.put("vnp_Locale", "vn");
@@ -73,17 +73,14 @@ public class PaymentServiceImpl implements PaymentService{
         String orderId = allParams.get("vnp_OrderInfo").replaceAll("\\D+", "");
         BigDecimal amount = BigDecimal.valueOf(Long.parseLong(allParams.get("vnp_Amount"))).divide(BigDecimal.valueOf(100));
         String vnp_TxnRef = allParams.get("vnp_TxnRef");
-        String firstChar = vnp_TxnRef.substring(0, 1);
-        Long invoiceId = Long.parseLong(firstChar);
-//        InvoiceEntity invoice = invoiceRepository.findById(invoiceId).
-//                orElseThrow(() -> new RuntimeException("Payment not found with id: " + vnp_TxnRef));
-
+        Long invoiceId = Long.parseLong(vnp_TxnRef);
+        InvoiceEntity invoice = invoiceRepository.findById(invoiceId).
+                orElseThrow(() -> new RuntimeException("Payment not found with id: " + vnp_TxnRef));
         if(responseCode.equals("00")) {
             invoiceService.MarkInvoiceAsPaid(invoiceId, Long.parseLong(orderId), amount);
         }else {
             System.out.println("Payment failed with response code: " + responseCode);
         }
-
         return PaymentResponse.builder()
                 .orderId(Long.parseLong(orderId))
                 .invoiceId(invoiceId)
@@ -95,4 +92,11 @@ public class PaymentServiceImpl implements PaymentService{
                 .build();
     }
 
+//    public void saveInvoice(Long orderId, BigDecimal amount) {
+//        InvoiceEntity invoice = new InvoiceEntity();
+//        invoice.setOrder(orderRepository.findById(orderId).get());
+//        invoice.setTotalAmount(amount);
+//        invoice.setStatus("PAID");
+//        invoiceRepository.save(invoice);
+//    }
 }

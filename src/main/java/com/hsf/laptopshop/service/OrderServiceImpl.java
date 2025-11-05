@@ -23,6 +23,12 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    public OrderEntity getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+    @Override
     public OrderEntity getOrCreateCart(UserProfileEntity userProfile) {
         return orderRepository.findByUserProfile(userProfile)
                 .orElseGet(() -> {
@@ -75,15 +81,15 @@ public class OrderServiceImpl implements OrderService {
                         .multiply(BigDecimal.valueOf(ol.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        InvoiceEntity invoice = order.getInvoice();
-        if (invoice == null) {
-            invoice = new InvoiceEntity();
-            invoice.setOrder(order);
-        }
-
-        invoice.setTotalAmount(total);
-        invoice.setStatus("Unpaid");
-        invoiceRepository.save(invoice);
+//        InvoiceEntity invoice = order.getInvoice();
+//        if (invoice == null) {
+//            invoice = new InvoiceEntity();
+//            invoice.setOrder(order);
+//        }
+//
+//        invoice.setTotalAmount(total);
+//        invoice.setStatus("Unpaid");
+//        invoiceRepository.save(invoice);
         return total;
     }
 
