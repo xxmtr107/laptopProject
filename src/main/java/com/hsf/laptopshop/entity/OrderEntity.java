@@ -40,6 +40,9 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLaptop> orderLaptops = new ArrayList<>();
 
+    @Column(name = "status")
+    private String status;
+
     public void removeLaptop(OrderLaptop orderLaptop) {
         orderLaptops.remove(orderLaptop);
         orderLaptop.setOrder(null);

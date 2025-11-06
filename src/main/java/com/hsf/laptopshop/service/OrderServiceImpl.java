@@ -28,14 +28,30 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 
+//    @Override
+//    public OrderEntity getOrCreateCart(UserProfileEntity userProfile) {
+//        return orderRepository.findByUserProfile(userProfile)
+//                .orElseGet(() -> {
+//                    OrderEntity newCart = new OrderEntity();
+//                    newCart.setUserProfile(userProfile);
+//                    return orderRepository.save(newCart);
+//                });
+//    }
+
     @Override
     public OrderEntity getOrCreateCart(UserProfileEntity userProfile) {
-        return orderRepository.findByUserProfile(userProfile)
-                .orElseGet(() -> {
-                    OrderEntity newCart = new OrderEntity();
-                    newCart.setUserProfile(userProfile);
-                    return orderRepository.save(newCart);
-                });
+        // Find an existing cart order for this user (not paid yet)
+        Optional<OrderEntity> existingOrder = orderRepository.findByUserProfileAndStatus(userProfile, "CART");
+
+        if (existingOrder.isPresent()) {
+            return existingOrder.get();
+        }
+
+        // Otherwise, create a new one
+        OrderEntity newCart = new OrderEntity();
+        newCart.setUserProfile(userProfile);
+        newCart.setStatus("CART");
+        return orderRepository.save(newCart);
     }
 
     @Override
