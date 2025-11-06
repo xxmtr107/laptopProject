@@ -334,7 +334,7 @@
             <form th:action="@{/payments/create/{orderId}(orderId=${order.orderId})}" method="post">
                 <button type="submit" class="checkout-btn">Proceed to Checkout</button>
             </form>
-            <form th:href="/">
+            <form th:action="@{/user/home}" method="get">
                 <button type="submit" class="continue-shopping">Continue Shopping</button>
             </form>
 
