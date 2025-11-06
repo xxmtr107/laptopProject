@@ -24,4 +24,5 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     Optional<OrderEntity> findByUserProfile(UserProfileEntity userProfile);
 
+    Optional<OrderEntity> findByUserProfileAndStatus(UserProfileEntity userProfile, String status);
 }

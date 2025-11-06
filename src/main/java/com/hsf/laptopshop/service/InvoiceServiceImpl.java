@@ -6,6 +6,7 @@ import com.hsf.laptopshop.repository.InvoiceRepository;
 import com.hsf.laptopshop.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -21,10 +22,20 @@ public class InvoiceServiceImpl implements InvoiceService {
         InvoiceEntity invoice = invoiceRepository.findById(invoiceId)
                 .orElseThrow(() -> new RuntimeException("Invoice not found"));
         OrderEntity order = orderRepository.findById(orderId)
-                        .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new RuntimeException("Order not found"));
         invoice.setOrder(order);
         invoice.setStatus("PAID");
         invoice.setTotalAmount(amount);
         invoiceRepository.save(invoice);
+        markOrderAsPaid(orderId);
+    }
+
+    @Transactional
+    public void markOrderAsPaid(Long orderId) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setStatus("PAID");
+        orderRepository.save(order);
     }
 }
