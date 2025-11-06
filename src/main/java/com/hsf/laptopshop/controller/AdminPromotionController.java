@@ -18,6 +18,6 @@ public class AdminPromotionController {
     @GetMapping
     public String listPromotions(Model model) {
         model.addAttribute("promotions", promotionService.getAllPromotions());
-        return "admin/listPromotion"; // trỏ tới file
+        return "admin/listPromotion"; // trỏ tới file:
     }
 }

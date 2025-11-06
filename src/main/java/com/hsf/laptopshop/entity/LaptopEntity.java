@@ -2,18 +2,18 @@ package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-
 
 @Entity
 @Table(name = "laptops")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LaptopEntity {
     @Id
     @Column(name = "laptop_id")
@@ -30,16 +30,8 @@ public class LaptopEntity {
     String description;
     Integer stock;
 
-
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
     @Column(name = "featured")
     Boolean featured; //  Sản phẩm nổi bật (true/false)
-
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)

@@ -2,10 +2,16 @@ package com.hsf.laptopshop.repository;
 
 import com.hsf.laptopshop.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity,Long> {
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
+
+    // Nếu login bằng username thì dùng:
+    Optional<UserEntity> findByUsername(String username);
+
+
 }

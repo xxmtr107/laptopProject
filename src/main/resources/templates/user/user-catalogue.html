@@ -8,7 +8,7 @@
 </head>
 <body>
 <!-- Header -->
-<div th:replace="~{fragments/header :: navbar}"></div>
+<div th:replace="~{fragments/headerCust :: navbar}"></div>
 
 <div class="container mt-4">
     <div class="row">
@@ -101,7 +101,7 @@
                                 <span class="text-danger fw-bold fs-6"
                                       th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></span>
                             </div>
-                            <a th:href="@{/product/{id}(id=${laptop.laptopId})}"
+                            <a th:href="@{/user/product/{id}(id=${laptop.laptopId})}"
                                class="btn btn-sm btn-outline-primary">
                                 Xem chi tiết
                             </a>
@@ -114,7 +114,7 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${laptopPage.first} ? 'disabled'">
                         <a class="page-link"
-                           th:href="@{/catalogue(page=${laptopPage.number - 1},
+                           th:href="@{/user/products(page=${laptopPage.number - 1},
                                         brandId=${selectedBrand},
                                         seriesId=${selectedSeries},
                                         minPrice=${param.minPrice},
@@ -126,7 +126,7 @@
                         th:each="i : ${#numbers.sequence(0, laptopPage.totalPages - 1)}"
                         th:classappend="${i == laptopPage.number} ? 'active'">
                         <a class="page-link"
-                           th:href="@{/catalogue(page=${i},
+                           th:href="@{/user/products(page=${i},
                                         brandId=${selectedBrand},
                                         seriesId=${selectedSeries},
                                         minPrice=${param.minPrice},
@@ -136,7 +136,7 @@
                     </li>
                     <li class="page-item" th:classappend="${laptopPage.last} ? 'disabled'">
                         <a class="page-link"
-                           th:href="@{/catalogue(page=${laptopPage.number + 1},
+                           th:href="@{/user/products(page=${laptopPage.number + 1},
                                         brandId=${selectedBrand},
                                         seriesId=${selectedSeries},
                                         minPrice=${param.minPrice},
@@ -150,9 +150,10 @@
     </div>
 </div>
 
-<!-- Footer -->
-<div th:replace="~{fragments/footer :: footer}"></div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

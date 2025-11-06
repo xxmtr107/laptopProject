@@ -21,6 +21,7 @@ public class SecurityConfig {
                         // 2. CHO PHÉP TRANG DASHBOARD (URL TỪ CONTROLLER)
                         .requestMatchers("/admin/dashboard").permitAll()
 
+
                         // 3. TẠM THỜI CHO PHÉP MỌI THỨ KHÁC
                         .anyRequest().permitAll()
                 )

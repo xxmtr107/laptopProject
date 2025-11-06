@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title th:if="${laptop != null}" th:text="${laptop.name}">Chi tiết sản phẩm</title>
@@ -9,11 +9,11 @@
 </head>
 <body>
 <!-- Header -->
-<div th:replace="~{fragments/header :: navbar}"></div>
+<div th:replace="~{fragments/headerCust :: navbar}"></div>
 
-<div class="container mt-5" th:if="${laptop != null}">
+<div class="container mt-5 mb-5" th:if="${laptop != null}">
     <div class="mb-3">
-        <a href="/catalogue">&larr; Quay lại danh sách</a>
+        <a href="/user/products">&larr; Quay lại danh sách</a>
     </div>
     <div class="row">
         <div class="col-md-6 position-relative">
@@ -65,22 +65,23 @@
                 <span class="ms-2">(Còn <th:block th:text="${laptop.stock}">5</th:block> sản phẩm)</span>
             </div>
 
-            <!-- Button thêm vào giỏ & thông báo -->
+            <!-- Nút action -->
             <div class="d-grid gap-2">
-                <a th:href="@{/login}" class="btn btn-primary btn-lg">
+                <a th:href="@{/cart/add/{id}(id=${laptop.getLaptopId()})}" class="btn btn-primary btn-lg">
                     <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
+                </a>
+                <a th:href="@{/cart/view(id=${laptop.getLaptopId()})}" class="btn btn-danger btn-lg">
+                    <i class="bi bi-lightning-fill"></i> Mua ngay
                 </a>
                 <div th:if="${successMessage}" class="alert alert-success mt-2" role="alert">
                     <span th:text="${successMessage}"></span>
                 </div>
-                <p class="text-center text-muted small">
-                    (Bạn sẽ được chuyển đến trang đăng nhập)
-                </p>
+
             </div>
         </div>
     </div>
 
-    <!-- Mô tả sản phẩm dạng HTML -->
+    <!-- Mô tả sản phẩm -->
     <div class="row mt-5">
         <div class="col-12">
             <h4>Mô tả sản phẩm</h4>
@@ -90,18 +91,20 @@
             </div>
         </div>
     </div>
+</div>
 
-
-    <!-- Nếu không có dữ liệu laptop, hiện thông báo không tìm thấy -->
-    <div class="container mt-5" th:if="${laptop == null}">
-        <div class="alert alert-danger text-center" role="alert">
-            <h4 class="alert-heading">Lỗi 404 - Không tìm thấy!</h4>
-            <p>Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
-            <hr>
-            <a href="/catalogue" class="btn btn-primary">&larr; Quay lại trang chủ</a>
-        </div>
+<!-- Nếu không có dữ liệu laptop, hiện thông báo không tìm thấy -->
+<div class="container mt-5" th:if="${laptop == null}">
+    <div class="alert alert-danger text-center" role="alert">
+        <h4 class="alert-heading">Lỗi 404 - Không tìm thấy!</h4>
+        <p>Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+        <hr>
+        <a href="/user/products" class="btn btn-primary">&larr; Quay lại danh sách</a>
     </div>
 </div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

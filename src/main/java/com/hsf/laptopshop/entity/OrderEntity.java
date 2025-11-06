@@ -20,17 +20,17 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     Long orderId;
-    
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id")
     UserProfileEntity userProfile;
-    
+
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true)
     InvoiceEntity invoice;
 
