@@ -15,7 +15,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
 
-                        // 1. CHO PHÉP TẤT CẢ CÁC FILE TĨNH (Lỗi của bạn ở đây)
+                        // 1. CHO PHÉP TẤT CẢ CÁC FILE TĨNH
                         .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
 
                         // 2. CHO PHÉP TRANG DASHBOARD (URL TỪ CONTROLLER)

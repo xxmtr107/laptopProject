@@ -22,7 +22,7 @@ public class StatsServiceImpl implements StatsService {
     @Autowired
     OrderRepository orderRepository;
     @Autowired
-    OrderItemRepository orderItemRepository;
+    OrderLaptopRepository orderLaptopRepository;
     @Autowired
     InvoiceRepository invoiceRepository;
     @Autowired
@@ -60,14 +60,16 @@ public class StatsServiceImpl implements StatsService {
     @Async
     public CompletableFuture<List<TopLaptopProjection>> getTopLaptops(LocalDateTime s, LocalDateTime e) {
         Pageable top5 = PageRequest.of(0, 5);
-        return CompletableFuture.completedFuture(orderItemRepository.findTopSellingLaptops(s,e,top5));
+        // Sửa ở đây:
+        return CompletableFuture.completedFuture(orderLaptopRepository.findTopSellingLaptops(s,e,top5));
     }
 
     @Override
     @Async
     public CompletableFuture<List<TopBrandProjection>> getTopBrands(LocalDateTime s, LocalDateTime e) {
         Pageable top5 = PageRequest.of(0, 5);
-        return CompletableFuture.completedFuture(orderItemRepository.findTopSellingBrands(s,e,top5));
+        // Sửa ở đây:
+        return CompletableFuture.completedFuture(orderLaptopRepository.findTopSellingBrands(s,e,top5));
     }
 
     @Override
