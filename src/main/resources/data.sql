@@ -55,7 +55,7 @@ INSERT INTO users (username, password, role) VALUES
                                                  ('peter', '123456', 'USER');
 
 -- Bảng USER_PROFILES
-INSERT INTO user_profiles (user_id, full_name, phone, adress) VALUES
+INSERT INTO user_profiles (user_id, full_name, phone, address) VALUES
                                                                    (1, 'Admin Master', '0900000001', '123 Admin Street'),
                                                                    (2, 'John Doe', '0900000002', '45 Nguyen Trai, Q1'),
                                                                    (3, 'Anna Smith', '0900000003', '56 Le Loi, Q3'),
