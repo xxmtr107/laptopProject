@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Chủ LaptopShop</title>
+    <!--
+   Link nhúng Bootstrap 5 vào giao diện qua CDN:
+   - Sử dụng CDN để tải Bootstrap nhanh từ server của Bootstrap, không cần tự lưu file về dự án.
+   - đặt ở <head>, giúp dùng sẵn các class (btn, row, card, col, ...).
+    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card.laptop-featured {
+            border-radius: 18px;
+            border: 3px solid #fbad17;
+            box-shadow: 0 8px 34px #f7be8090, 0 2px 8px #fa6c24;
+            transition: box-shadow 0.16s, border 0.18s, transform 0.12s;
+            position: relative;
+            overflow: visible;
+        }
+        .card.laptop-featured:hover {
+            box-shadow: 0 18px 60px #f79e1c3a, 0 5px 19px #00acee99;
+            border-color: #f25510;
+            transform: translateY(-4px) scale(1.045);
+        }
+
+        .badge.discount {
+            left: 18px; top: 18px;
+            background: linear-gradient(90deg, #fc4a1a, #f7b733 80%);
+            color: #fff;
+            padding: 9px 22px;
+            border-radius: 16px;
+            font-weight: bold;
+            box-shadow: 0 1px 6px #fa7c1555;
+            font-size: 1.03em;
+        }
+        .btn.product-detail {
+            background: linear-gradient(95deg,#ffd700 15%,#f79e1f 80%);
+            color: #b04400; font-weight: bold;
+            border-radius: 7px; padding: 8px 22px; font-size: 1.07em;
+            margin-top: 8px;
+        }
+        .btn.product-detail:hover {
+            background: linear-gradient(95deg,#f25510,#fae124 120%);
+            color: #fff200;
+            box-shadow: 0 4px 16px #ffd079;
+        }
+        /* Thẻ giảm giá nổi trên đầu card */
+        .discount-tag {
+            position: absolute;
+            top: -19px; left: 16px;
+            background: #ff2f0d;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.05em;
+            z-index: 5;
+            padding: 5px 22px 6px 22px;
+            border-radius: 13px 13px 13px 0;
+            box-shadow: 0 4px 17px #fc4a1a55, 0 0 8px #fff1;
+            border: 2.5px solid #fbe210;
+            letter-spacing: 1.5px;
+        }
+
+
+    </style>
+</head>
+<body style="background: #f6f7fb;">
+
+<!-- Header -->
+<div th:replace="~{fragments/headerCust :: navbar}"></div>
+
+<!-- Banner carousel -->
+<div class="container-fluid px-0">
+    <div id="shopBanner" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-interval="3500">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="3500">
+                <img src="/img/laptop.jpg" class="d-block w-100" alt="anh banner 1" style="height:650px; object-fit:cover;">
+            </div>
+            <div class="carousel-item" data-bs-interval="3500">
+                <img src="/img/uudaiii.jpg" class="d-block w-100" alt="anh banner 2" style="height:650px; object-fit:cover;">
+            </div>
+            <div class="carousel-item" data-bs-interval="3500">
+                <img src="/img/laptopp.jpg" class="d-block w-100" alt="anh banner 3" style="height:650px; object-fit:cover;">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#shopBanner" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#shopBanner" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</div>
+
+<!-- Thông điệp -->
+<div class="container mb-3">
+    <div class="bg-primary bg-gradient rounded p-3 text-center text-white shadow-sm fw-bold fs-5">
+        🌟 Chào mừng bạn đến với LaptopShop! Hãy để chúng tôi mang đến cho bạn những chiếc laptop yêu thích và trải nghiệm mua sắm tuyệt vời! 💻💖
+    </div>
+</div>
+
+<!-- Box thống kê nhỏ -->
+<div class="container my-4">
+    <div class="row justify-content-center g-4">
+        <!-- Box: Tổng laptop (Cam đậm chuyển đỏ) -->
+        <div class="col-12 col-md-4">
+            <div class="stat-card shadow-lg rounded-4 p-4 text-center h-100"
+                 style="background: linear-gradient(135deg, #fd720c 0%, #fa2c2c 80%, #ffd06a 100%);
+                        color: #fff;">
+                <div class="mb-2">
+                    <i class="bi bi-laptop fs-1" style="color:#fff; filter: drop-shadow(0 1px 5px #fa2c2c99);"></i>
+                </div>
+                <div class="display-5 fw-bold mb-1" style="color:#fff;" th:text="${homepageStats.totalLaptops}">0</div>
+                <div class="fw-semibold" style="color:rgba(255,255,255,0.93);">Laptop đang bán</div>
+            </div>
+        </div>
+        <!-- Box: Tổng brand (Xanh lá, vàng chanh tươi) -->
+        <div class="col-12 col-md-4">
+            <div class="stat-card shadow-lg rounded-4 p-4 text-center h-100"
+                 style="background: linear-gradient(135deg, #4acf64 15%, #f9e506 70%, #81f194 100%);
+                        color: #fff;">
+                <div class="mb-2">
+                    <i class="bi bi-building fs-1" style="color:#fff; filter: drop-shadow(0 1px 5px #4acf6499);"></i>
+                </div>
+                <div class="display-5 fw-bold mb-1" style="color:#fff;" th:text="${homepageStats.totalBrands}">0</div>
+                <div class="fw-semibold" style="color:rgba(255,255,255,0.93);">Hãng laptop</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sản phẩm nổi bật -->
+<div class="container">
+    <!-- Tiêu đề cho section sản phẩm nổi bật -->
+    <h1 class="text-center mb-4 text-info fw-bold">Sản phẩm nổi bật</h1>
+    <!-- Bootstrap chia lưới: mỗi row là 1 hàng, g-4 là khoảng cách giữa các cột -->
+    <div class="row g-4">
+        <!-- Duyệt qua danh sách featuredLaptops, mỗi laptop là 1 sản phẩm -->
+        <div th:each="laptop : ${featuredLaptops}" class="col-lg-4 col-md-6 col-12">
+            <!-- Card Bootstrap thể hiện thông tin sản phẩm, có class custom cho style -->
+            <div class="card laptop-featured h-100 position-relative text-center p-2">
+                <!-- Nếu sản phẩm có promotions, hiện tag giảm giá nổi trên đầu (giá trị hoặc %) -->
+                <span th:if="${laptop.promotions != null and !#lists.isEmpty(laptop.promotions)}"
+                      class="discount-tag"
+                      th:text="${laptop.promotions[0].discountAmount != null && laptop.promotions[0].discountAmount > 0
+                        ? '-' + #numbers.formatDecimal(laptop.promotions[0].discountAmount, 0, 'POINT', 0, 'COMMA') + '₫'
+                        : (laptop.promotions[0].discountPercent != null && laptop.promotions[0].discountPercent > 0
+                           ? '-' + laptop.promotions[0].discountPercent + '%'
+                           : '')}">
+                </span>
+
+                <!-- Badge đẹp ở góc card: "Giảm ..." cho khuyến mãi -->
+                <span th:if="${laptop.promotions != null and !#lists.isEmpty(laptop.promotions)}"
+                      class="badge discount position-absolute"
+                      th:text="${laptop.promotions[0].discountAmount != null && laptop.promotions[0].discountAmount > 0
+                        ? 'Giảm ' + #numbers.formatDecimal(laptop.promotions[0].discountAmount, 0, 'POINT', 0, 'COMMA') + '₫'
+                        : (laptop.promotions[0].discountPercent != null && laptop.promotions[0].discountPercent > 0
+                           ? 'Giảm ' + laptop.promotions[0].discountPercent + '%'
+                           : '')}">
+                </span>
+
+                <!-- Hình sản phẩm, class custom cho CSS ảnh to/canh giữa -->
+                <img th:src="${laptop.image}" th:alt="${laptop.name}" class="card-img-top product mx-auto mt-4">
+
+                <div class="card-body">
+                    <!-- Tên sản phẩm, font đậm/màu cho nổi bật -->
+                    <h5 class="card-title fw-bold text-primary mb-3" th:text="${laptop.name}"></h5>
+
+                    <!-- Hiển thị giá (giá sau giảm, giá gốc gạch ngang nếu có khuyến mãi) -->
+                    <div th:if="${laptop.promotions != null and !#lists.isEmpty(laptop.promotions)}" class="mb-2">
+                        <span class="text-danger fs-5 fw-bold"
+                              th:text="${
+                                laptop.promotions[0].discountAmount != null && laptop.promotions[0].discountAmount > 0
+                                  ? #numbers.formatDecimal(laptop.price - laptop.promotions[0].discountAmount, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                  : (laptop.promotions[0].discountPercent != null && laptop.promotions[0].discountPercent > 0
+                                    ? #numbers.formatDecimal(laptop.price * (100 - laptop.promotions[0].discountPercent) / 100, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                    : #numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'
+                                  )
+                              }"></span>
+                        <!-- Giá gốc gạch ngang bên cạnh hoặc phía dưới giá sau giảm -->
+                        <span class="text-decoration-line-through text-secondary ms-2"
+                              th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></span>
+                    </div>
+
+                    <!-- Nếu không có khuyến mãi, chỉ hiển thị giá đúng -->
+                    <div th:if="${laptop.promotions == null or #lists.isEmpty(laptop.promotions)}" class="mb-2">
+                        <span class="text-danger fs-5 fw-bold"
+                              th:text="${#numbers.formatDecimal(laptop.price, 0, 'POINT', 0, 'COMMA') + ' VNĐ'}"></span>
+                    </div>
+
+                    <!-- Nút chuyển tới trang chi tiết sản phẩm -->
+                    <a class="btn product-detail fw-bold px-4 mt-2" th:href="@{'/user/product/' + ${laptop.laptopId}}">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Nút chuyển catalogue -->
+<div class="container text-center mt-4">
+    <a href="/user/products" class="btn btn-lg btn-warning fw-bold px-5 shadow">Xem tất cả sản phẩm</a>
+</div>
+
+<!-- Giới thiệu shop dành cho khách hàng -->
+<div class="container my-5">
+    <div class="bg-light rounded-4 shadow p-5 text-center">
+        <h2 class="text-info fw-bold mb-3">Về LaptopShop 💻✨</h2>
+        <hr class="w-25 mx-auto mb-4 border-info opacity-75">
+        <p class="fs-5 text-secondary mb-0">
+            <strong>Chào mừng bạn đến với trang khách hàng của LaptopShop! 🎉</strong>
+            Đây là nơi bạn có thể khám phá <span class="text-dark">các sản phẩm laptop chính hãng, chất lượng cao 🖥️</span>
+            với mức giá tốt nhất và ưu đãi đặc biệt dành riêng cho khách hàng 🎁.
+            <br>Chúng tôi luôn<span class="fw-semibold text-dark">tư vấn tận tâm 💬</span>,
+            <span class="fw-semibold text-dark">bảo hành uy tín 🛡️</span> và <span class="fw-semibold text-dark">giao hàng toàn quốc 🚚</span> —
+            giúp bạn dễ dàng sở hữu chiếc laptop phù hợp cho học tập, làm việc và giải trí 🎮🎓.
+            Hãy tận hưởng trải nghiệm mua sắm tiện lợi, nhanh chóng ngay tại trang khách hàng này 🛍️💖!
+        </p>
+    </div>
+</div>
+
+<!-- Footer -->
+<!--
+    Chèn (thay thế) nội dung của fragment 'footer' từ file fragments/footer.html vào vị trí này.
+    - 'th:replace' là thuộc tính của Thymeleaf để nhúng một fragment vào template.
+    - fragments/footer: đường dẫn tới file chứa fragment (resources/templates/fragments/footer.html).
+    - ::footer: tên fragment được định nghĩa bằng th:fragment="footer" bên trong file.
+    - Cách dùng này giúp tái sử dụng footer cho nhiều trang, chỉ cần sửa ở 1 nơi.
+-->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

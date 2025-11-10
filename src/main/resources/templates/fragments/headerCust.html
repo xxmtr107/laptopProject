@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header - LaptopShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-auth { font-weight: 500; padding: 6px 16px; border-radius: 7px; }
+        .navbar-brand { font-weight: bold; font-size: 1.5rem; color: #0d6efd; }
+        .navbar-brand:hover { color: #f79e1f; text-decoration: none; }
+        .nav-link { font-weight: 500; display: flex; align-items: center; }
+        .cart-emoji { font-size: 1.2rem; margin-right: 5px; transition: transform 0.2s; }
+        .cart-emoji:hover { transform: scale(1.2); }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3" th:fragment="navbar">
+    <div class="container">
+        <!-- Tên shop -->
+        <a class="navbar-brand me-4" th:href="@{/user/home}">LaptopShop</a>
+
+        <!-- Toggle button cho mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNav" aria-controls="mainNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <!-- Menu chính -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/home}">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/products}">Sản phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/profile}">Hồ sơ cá nhân</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/user/orders}">Lịch sử đơn hàng</a></li>
+            </ul>
+
+            <!-- Logout + Giỏ hàng -->
+            <ul class="navbar-nav d-flex align-items-center ms-auto">
+                <li class="nav-item me-3">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-auth">
+                            Đăng xuất
+                        </button>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/cart/view}" class="nav-link">
+                        <span class="cart-emoji">🛒</span> Giỏ hàng
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "laptops")
@@ -29,6 +30,9 @@ public class LaptopEntity {
     String description;
     Integer stock;
 
+    @Column(name = "featured")
+    Boolean featured; //  Sản phẩm nổi bật (true/false)
+
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
     BrandEntity brand;
@@ -36,5 +40,10 @@ public class LaptopEntity {
     @ManyToOne
     @JoinColumn(name = "series_id", nullable = false)
     LaptopSeriesEntity series;
+
+
+    // ManyToMany với PromotionEntity
+    @ManyToMany(mappedBy = "laptops")
+    List<PromotionEntity> promotions;
 
 }
