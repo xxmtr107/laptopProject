@@ -5,12 +5,14 @@ import com.hsf.laptopshop.repository.*;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
@@ -61,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
         Optional<OrderLaptop> existingOrderLaptop = order.getOrderLaptops()
                 .stream()
-                .filter(ol -> ol.getLaptop().getLaptopId() == laptopId)
+                .filter(ol -> ol.getLaptop().getLaptopId().equals(laptopId))
                 .findFirst();
         if(existingOrderLaptop.isPresent()) {
             OrderLaptop ol = existingOrderLaptop.get();
@@ -97,15 +99,15 @@ public class OrderServiceImpl implements OrderService {
                         .multiply(BigDecimal.valueOf(ol.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-//        InvoiceEntity invoice = order.getInvoice();
-//        if (invoice == null) {
-//            invoice = new InvoiceEntity();
-//            invoice.setOrder(order);
-//        }
-//
-//        invoice.setTotalAmount(total);
-//        invoice.setStatus("Unpaid");
-//        invoiceRepository.save(invoice);
+        InvoiceEntity invoice = invoiceRepository.findByOrder(order).orElse(null);
+        if (invoice == null) {
+            invoice = new InvoiceEntity();
+            invoice.setOrder(order);
+        }
+
+        invoice.setTotalAmount(total);
+        invoice.setStatus("Unpaid");
+        invoiceRepository.save(invoice);
         return total;
     }
 

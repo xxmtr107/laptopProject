@@ -34,11 +34,18 @@ public class PaymentServiceImpl implements PaymentService{
                 orElseThrow(() -> new RuntimeException("Invoice not found"));
         Long amount = totalAmount.multiply(BigDecimal.valueOf(100)).longValue();
 
-        InvoiceEntity invoice = InvoiceEntity.builder()
-                .order(orderInfo)
-                .totalAmount(totalAmount)
-                .status("PENDING")
-                .build();
+        InvoiceEntity invoice = invoiceRepository.findByOrder(orderInfo).orElse(null);
+
+        if (invoice == null) {
+            invoice = InvoiceEntity.builder()
+                    .order(orderInfo)
+                    .totalAmount(totalAmount)
+                    .status("PENDING")
+                    .build();
+        } else {
+            invoice.setTotalAmount(totalAmount);
+            invoice.setStatus("PENDING");
+        }
         invoiceRepository.save(invoice);
 
         Map<String, String> vnp_ParamsMap = vnpayConfig.getVnPayConfig();
@@ -92,11 +99,4 @@ public class PaymentServiceImpl implements PaymentService{
                 .build();
     }
 
-//    public void saveInvoice(Long orderId, BigDecimal amount) {
-//        InvoiceEntity invoice = new InvoiceEntity();
-//        invoice.setOrder(orderRepository.findById(orderId).get());
-//        invoice.setTotalAmount(amount);
-//        invoice.setStatus("PAID");
-//        invoiceRepository.save(invoice);
-//    }
 }
