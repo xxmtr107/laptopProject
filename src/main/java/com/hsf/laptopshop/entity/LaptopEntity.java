@@ -1,36 +1,49 @@
 package com.hsf.laptopshop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Repository;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "laptops")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LaptopEntity {
     @Id
     @Column(name = "laptop_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer laptopId;
-    @Column(name = "model_tier")
-    String modelTier;
-    @Column(name = "technical_model_id")
-    String technicalModelId;
-    @ManyToOne
-    @JoinColumn(name = "laptop_series_id")
-    LaptopSeriesEntity laptopSeriesEntity;
-    @Column(name = "stock", columnDefinition = "INT default 0")
+
+    String name;
+    BigDecimal price; //BigDecimal? Ông bán laptop gì mà có thể vượt được 2 tỷ vậy? Sao không sài double?
+
+    @Column(length = 1000)
+    String image;
+
+    @Column(columnDefinition = "NVARCHAR(MAX)")
+    String description;
     Integer stock;
+
+    @Column(name = "featured")
+    Boolean featured; //  Sản phẩm nổi bật (true/false)
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
-    private BrandEntity brand;
+    BrandEntity brand;
 
     @ManyToOne
     @JoinColumn(name = "series_id", nullable = false)
-    private LaptopSeriesEntity series;
+    LaptopSeriesEntity series;
+
+
+    // ManyToMany với PromotionEntity
+    @ManyToMany(mappedBy = "laptops")
+    List<PromotionEntity> promotions;
+
 }

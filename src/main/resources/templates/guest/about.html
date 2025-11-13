@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giới Thiệu - LaptopShop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .section-title {
+            color: #0d6efd;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            border-left: 5px solid #0d6efd;
+            padding-left: 10px;
+        }
+        .about-card {
+            border-left: 4px solid #0d6efd;
+            background-color: #f8f9fa;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.2rem;
+        }
+    </style>
+</head>
+<body style="background: #f6f7fb;">
+<!-- Header -->
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<!-- Nội dung chính -->
+<div class="container my-5">
+    <div class="bg-white shadow rounded-4 p-5">
+        <h1 class="text-info fw-bold mb-4">Về LaptopShop</h1>
+        <p class="fs-5">
+            <strong>LaptopShop</strong> là hệ thống bán lẻ laptop uy tín hàng đầu Việt Nam,
+            chuyên cung cấp các sản phẩm chính hãng từ các thương hiệu nổi tiếng như
+            <span class="fw-bold text-primary">Dell, HP, Asus, Lenovo, Acer, MacBook</span> và nhiều hãng khác.
+            Chúng tôi luôn đặt chất lượng sản phẩm và trải nghiệm khách hàng lên hàng đầu.
+        </p>
+
+        <h3 class="section-title mt-5">🎯 Tầm Nhìn & Sứ Mệnh</h3>
+        <div class="about-card">
+            <p><strong>Tầm nhìn:</strong> Trở thành chuỗi cửa hàng laptop đáng tin cậy và được yêu thích nhất Việt Nam.</p>
+            <p><strong>Sứ mệnh:</strong> Mang đến cho khách hàng những sản phẩm công nghệ tốt nhất với dịch vụ chăm sóc tận tâm, nhanh chóng và chuyên nghiệp.</p>
+        </div>
+
+        <h3 class="section-title mt-4">🤝 Giá Trị Cốt Lõi</h3>
+        <ul class="fs-5">
+            <li><strong>Uy tín:</strong> Cam kết hàng chính hãng 100%, minh bạch trong mọi giao dịch.</li>
+            <li><strong>Tận tâm:</strong> Đội ngũ hỗ trợ luôn sẵn sàng 24/7, đồng hành cùng khách hàng trước và sau khi mua hàng.</li>
+            <li><strong>Chuyên nghiệp:</strong> Quy trình làm việc chuẩn, dịch vụ hậu mãi chu đáo.</li>
+            <li><strong>Đổi mới:</strong> Luôn cập nhật công nghệ mới nhất, bắt kịp xu hướng thị trường.</li>
+        </ul>
+
+        <h3 class="section-title mt-4">👨‍💻 Đội Ngũ LaptopShop</h3>
+        <div class="about-card">
+            <p>
+                LaptopShop tự hào sở hữu đội ngũ nhân viên trẻ trung, năng động, có trình độ chuyên môn cao.
+                Mỗi thành viên đều được đào tạo bài bản để mang lại sự hài lòng tối đa cho khách hàng —
+                từ khâu tư vấn, kỹ thuật cho đến bảo hành và chăm sóc sau mua.
+            </p>
+        </div>
+
+        <h3 class="section-title mt-4">⚙️ Dịch Vụ Nổi Bật</h3>
+        <ul class="fs-5">
+            <li>Bảo hành 12-24 tháng cho tất cả sản phẩm chính hãng.</li>
+            <li>Miễn phí cài đặt phần mềm, vệ sinh laptop định kỳ.</li>
+            <li>Hỗ trợ trả góp 0% qua thẻ tín dụng của hơn 20 ngân hàng.</li>
+            <li>Chính sách đổi trả trong 7 ngày nếu có lỗi từ nhà sản xuất.</li>
+            <li>Giao hàng nhanh toàn quốc, thanh toán linh hoạt.</li>
+        </ul>
+
+        <div class="text-center mt-5">
+            <h4 class="text-primary fw-bold">LaptopShop – Uy tín tạo giá trị!</h4>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
