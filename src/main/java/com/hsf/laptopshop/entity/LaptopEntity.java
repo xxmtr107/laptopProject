@@ -21,7 +21,7 @@ public class LaptopEntity {
     Integer laptopId;
 
     String name;
-    BigDecimal price; //BigDecimal? Ông bán laptop gì mà có thể vượt được 2 tỷ vậy? Sao không sài double?
+    BigDecimal price;
 
     @Column(length = 1000)
     String image;
@@ -45,5 +45,33 @@ public class LaptopEntity {
     // ManyToMany với PromotionEntity
     @ManyToMany(mappedBy = "laptops")
     List<PromotionEntity> promotions;
+
+    // --- CÁC TRƯỜNG MỚI CHO THÔNG SỐ KỸ THUẬT ---
+    @Column(name = "cpu", length = 255)
+    String cpu;
+
+    @Column(name = "ram", length = 255)
+    String ram;
+
+    @Column(name = "storage", length = 255) // Ổ cứng
+    String storage;
+
+    @Column(name = "graphics_card", length = 255) // Card đồ họa
+    String graphicsCard;
+
+    @Column(name = "screen_size", length = 100) // Kích thước màn hình
+    String screenSize;
+
+    @Column(name = "screen_resolution", length = 100) // Độ phân giải
+    String screenResolution;
+
+    @Column(name = "os", length = 100) // Hệ điều hành
+    String os;
+
+    @Column(name = "battery", length = 100) // Pin
+    String battery;
+
+    @Column(name = "ports", columnDefinition = "NVARCHAR(1000)") // Cổng giao tiếp
+    String ports;
 
 }

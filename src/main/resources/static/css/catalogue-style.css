@@ -1,0 +1,95 @@
+/* --- CSS cho trang Catalogue (Giống Odaplace) --- */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Card sản phẩm mới */
+.card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px; /* Bo góc ít hơn 1 chút */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03); /* Shadow rất nhẹ */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* Đảm bảo card có chiều cao cố định */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
+}
+
+.card-img-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 10px; /* Thêm padding để ảnh không bị sát viền */
+    object-fit: contain; /* Đảm bảo ảnh vừa vặn, không bị méo */
+    height: 220px; /* Cố định chiều cao ảnh */
+}
+
+/* Thêm class d-flex... vào card-body trong HTML */
+.card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Cho phép card-body co giãn */
+}
+
+/* Link tiêu đề */
+.card-title-link {
+    text-decoration: none;
+}
+.card-title-link:hover .card-title {
+    color: #d70018; /* Đổi màu khi hover */
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: #212529;
+    /* Giới hạn 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 50px; /* (1.05rem * 1.5 line-height * 2 lines) ~ 50px */
+    margin-bottom: 0.5rem;
+}
+
+.card-text.small {
+    font-size: 0.85rem;
+}
+
+/* Giá bán (style mới - màu đen) */
+.card-body .text-danger {
+    color: #212529 !important; /* ĐỔI SANG MÀU ĐEN */
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Giá gốc (bị gạch) */
+.card-body .text-secondary {
+    font-size: 0.9rem;
+    color: #8c8c8c !important;
+}
+
+/* Xóa nút "Xem chi tiết" (sẽ xóa trong HTML) */
+.btn-outline-primary {
+    display: none;
+}
+
+/* Bộ lọc (giữ nguyên) */
+.col-md-3 h4 {
+    color: #333;
+    font-weight: 700;
+}
+.col-md-3 .card {
+    border-radius: 12px;
+}
+.col-md-3 .btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 8px;
+}

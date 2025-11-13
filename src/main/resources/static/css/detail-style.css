@@ -1,0 +1,138 @@
+/* --- Bắt đầu CSS cho trang Chi tiết sản phẩm --- */
+body {
+    background-color: #f8f9fa; /* Nền xám nhạt */
+}
+
+/* Hộp chứa giá */
+.bg-light.p-3.rounded {
+    background-color: #fef2f2 !important; /* Màu nền hồng nhạt cho nổi bật giá */
+    border: 1px solid #fee2e2;
+    border-radius: 12px !important;
+}
+
+/* Giá bán (màu đỏ) */
+.bg-light .text-danger {
+    color: #d70018 !important;
+    font-weight: 700;
+    font-size: 2.25rem; /* Giá to, rõ ràng */
+}
+
+/* Giá gốc (bị gạch) */
+.bg-light .text-decoration-line-through {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* Nút "Thêm vào giỏ" (cho khách) */
+.btn-primary.btn-lg {
+    background-color: #d70018;
+    border-color: #d70018;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    transition: background-color 0.2s ease;
+}
+.btn-primary.btn-lg:hover {
+    background-color: #b20014; /* Đỏ đậm hơn khi hover */
+    border-color: #b20014;
+}
+
+/* Nút "Mua ngay" (cho user) */
+.btn-danger.btn-lg {
+    background-color: #d70018;
+    border-color: #d70018;
+    font-weight: 700;
+    border-radius: 8px;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    transition: background-color 0.2s ease;
+}
+.btn-danger.btn-lg:hover {
+    background-color: #b20014;
+    border-color: #b20014;
+}
+
+/* Nút "Thêm vào giỏ" (cho user - nút phụ) */
+a.btn.btn-primary.btn-lg[href*='/cart/add'] {
+    background-color: #fff;
+    color: #d70018;
+    border: 2px solid #d70018;
+}
+a.btn.btn-primary.btn-lg[href*='/cart/add']:hover {
+    background-color: #fef2f2;
+    color: #b20014;
+    border-color: #b20014;
+}
+
+/* Định dạng phần mô tả sản phẩm (lấy từ data.sql) */
+div[th\\:utext] {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #333;
+}
+div[th\\:utext] ul {
+                    list-style: none; /* Bỏ dấu chấm tròn mặc định */
+                    padding-left: 5px;
+                }
+div[th\\:utext] li {
+                    position: relative;
+                    padding-left: 30px; /* Tạo không gian cho dấu tick */
+                    margin-bottom: 10px;
+                }
+div[th\\:utext] li::before {
+                    content: '✓'; /* Ký tự dấu tick */
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    color: #16a34a; /* Màu xanh lá */
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                }
+div[th\\:utext] h3, div[th\\:utext] b {
+                                        color: #212529;
+                                        font-weight: 700;
+                                    }
+/* --- Kết thúc CSS cho trang Chi tiết sản phẩm --- */
+
+
+/* --- CSS CHO BẢNG THÔNG SỐ KỸ THUẬT --- */
+.spec-section {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.spec-section h4 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.spec-row {
+    display: flex;
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.75rem 0.5rem;
+}
+/* Hàng chẵn có màu nền khác */
+.spec-row:nth-child(even) {
+    background-color: #fff;
+}
+
+.spec-label {
+    width: 40%;
+    font-weight: 600;
+    color: #495057;
+    padding-right: 1rem;
+}
+
+.spec-value {
+    width: 60%;
+    color: #212529;
+}
