@@ -23,6 +23,8 @@ public class UserProfileEntity {
     String fullName;
     @Column(name = "phone", nullable = false, length = 10)
     String phone;
+    @Column(name = "email", length = 100)
+    String email;
     @Column(name = "address", length = 100)
     String address; // Thêm  địa chỉ này
 }

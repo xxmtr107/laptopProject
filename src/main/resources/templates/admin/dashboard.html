@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #b3b3b3; }
+        .date-picker {
+            background-color: #fff; padding: 1rem; margin-bottom: 1.5rem;
+            border-radius: 0.75rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .date-picker input[type="date"] {
+            border: 1px solid #D1D5DB; border-radius: 0.375rem; padding: 0.5rem;
+        }
+        .date-picker button {
+            background-color: #4F46E5; color: white; padding: 0.5rem 1rem;
+            border-radius: 0.375rem; font-weight: 500;
+        }
+        .date-picker button:hover { background-color: #4338CA; }
+
+        /* CSS cho bảng Top Products (Thêm mới) */
+        .product-thumbnail {
+            width: 40px; height: 40px;
+            object-fit: cover;
+            border-radius: 0.375rem; /* rounded-md */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+<div class="flex h-screen bg-gray-100">
+    <aside class="hidden md:flex flex-col w-64 bg-gray-800 text-white">
+        <div class="flex items-center justify-center h-16 border-b border-gray-700">
+            <svg class="w-8 h-8 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <h1 class="text-2xl font-bold ml-2">Admin</h1>
+        </div>
+        <nav class="flex-1 p-4 space-y-2" id="desktop-nav">
+            <a th:href="@{/admin/dashboard}" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 bg-indigo-500 text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="ml-4">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                <span class="ml-4">Đơn hàng</span>
+            </a>
+            <a th:href="@{/admin/promotions}" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span class="ml-4">Khuyến mãi</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <header class="bg-white shadow-sm">
+            <div class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
+                <button id="hamburger-button" class="md:hidden text-gray-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div class="flex-1 flex justify-end">
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Chào mừng trở lại, Admin!</h1>
+            <p class="text-gray-600 mb-8">Đây là những gì đang diễn ra hôm nay.</p>
+
+            <form th:action="@{/admin/dashboard}" method="get" class="date-picker">
+                <label for="startDate">Từ ngày:</label>
+                <input type="date" id="startDate" name="startDate" th:value="${startDate}">
+                <label for="endDate">Đến ngày:</label>
+                <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+                <button id="filterButton" type="submit">Lọc</button>
+            </form>
+
+            <div id="stats-cards" class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Tổng Sản Phẩm</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="${totalProducts}">0</p>
+                        </div>
+                        <div class="p-3 rounded-full bg-yellow-100">
+                            <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Tổng Người Dùng</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="${totalUsers}">0</p>
+                        </div>
+                        <div class="p-3 rounded-full bg-blue-100">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197m0 0A5.975 5.975 0 0112 13a5.975 5.975 0 013-1.197"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Tổng Đơn Hàng</p>
+                            <p class="text-2xl font-bold text-gray-800" th:text="${totalOrders}">0</p>
+                        </div>
+                        <div class="p-3 rounded-full bg-green-100">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <div class="lg:col-span-3 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Tổng quan doanh thu</h3>
+                    <div class="h-72">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Sản phẩm bán chạy</h3>
+                    <div class="overflow-y-auto h-72">
+                        <table class="w-full">
+                            <thead>
+                            <tr class="text-left text-sm font-semibold text-gray-500">
+                                <th class="pb-2">Sản phẩm</th>
+                                <th class="pb-2 text-right">Đã bán</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="laptop : ${topLaptopsList}" class="border-b border-gray-200">
+                                <td class="py-3">
+                                    <div class="flex items-center">
+                                        <img th:src="${laptop.image}" alt="" class="product-thumbnail">
+                                        <span class="text-sm font-medium text-gray-800" th:text="${laptop.laptopName}">Product Name</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 text-sm text-gray-700 text-right" th:text="${laptop.totalSold}">100</td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(topLaptopsList)}">
+                                <td colspan="2" class="py-3 text-sm text-gray-500">Không có dữ liệu.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-1 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Đơn hàng gần đây</h3>
+                    <ul id="recent-orders-list" class="space-y-4 overflow-y-auto h-72">
+                        <li th:each="order : ${recentOrdersList}" class="flex items-center justify-between py-2">
+                            <div class="flex items-center">
+                                <img class="h-10 w-10 rounded-full object-cover" th:src="@{'https://i.pravatar.cc/150?u=' + ${order.customerName}}" alt="" />
+                                <div class="ml-3">
+                                    <p class="text-sm font-semibold text-gray-800" th:text="${order.customerName ?: 'N/A'}">Nguyễn Văn A</p>
+                                    <p class="text-xs text-gray-500" th:text="'#' + ${order.orderId}">#1001</p>
+                                </div>
+                            </div>
+                            <div class='text-right'>
+                                <p class="text-sm font-medium text-gray-800"
+                                   th:text="${#numbers.formatDecimal( (order.totalAmount != null ? order.totalAmount : 0), 0, 'COMMA', 0, 'POINT') + ' đ'}">
+                                </p>
+
+                                <span class="text-xs text-gray-500" th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy')}">10/11/2025</span>
+                            </div>
+                        </li>
+                        <li th:if="${#lists.isEmpty(recentOrdersList)}" class="text-gray-500">
+                            Không có đơn hàng mới.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- 1. LẤY DỮ LIỆU BIỂU ĐỒ TỪ THYMELEAF ---
+        // Dữ liệu này được truyền từ DashBoardController.java qua biến ${revenueChartData}
+        const revenueData = /*[[${revenueChartData}]]*/ [];
+
+        // --- 2. LẤY CANVAS ---
+        const salesChartCanvas = document.getElementById('salesChart');
+        if (!salesChartCanvas) {
+            console.error("Không tìm thấy canvas 'salesChart'.");
+            return;
+        }
+        if (!revenueData) {
+            console.error("Không có dữ liệu 'revenueChartData'.");
+            return;
+        }
+
+        // --- 3. CHUẨN BỊ DỮ LIỆU CHO BIỂU ĐỒ ---
+        // File RevenueByMonthProjection.java có 2 trường: getMonth() và getTotalRevenue()
+        // Thymeleaf sẽ chuyển nó thành JSON: [{ month: 6, totalRevenue: 120000000 }, ...]
+        const labels = revenueData.map(item => `Tháng ${item.month}`);
+        const revenues = revenueData.map(item => item.totalRevenue); // DÙNG totalRevenue
+
+        // --- 4. RENDER BIỂU ĐỒ ---
+        const ctx = salesChartCanvas.getContext('2d');
+        if (!ctx) {
+            console.error("Không thể lấy context 2d từ canvas");
+            return;
+        }
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Doanh Thu (VND)',
+                    data: revenues,
+                    borderColor: 'rgb(79, 70, 229)',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            // Format tiền tệ (ví dụ: 120,000,000 -> 120 tr)
+                            callback: function(value) {
+                                return (Number(value) / 1000000).toLocaleString('vi-VN') + ' tr';
+                            }
+                        }
+                    }
+                },
+                plugins: { legend: { display: true } }
+            }
+        });
+
+        // --- 5. (Giữ lại) Xử lý nút hamburger cho mobile ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        // (Phần mobile-menu không có trong file của bạn, nhưng tôi cứ để code check)
+        const mobileMenu = document.getElementById('mobile-menu');
+        if(hamburgerButton && mobileMenu) {
+            hamburgerButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    });
+
+    /*]]>*/
+</script>
+</body>
+</html>
