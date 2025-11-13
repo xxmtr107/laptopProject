@@ -4,6 +4,7 @@ import com.hsf.laptopshop.entity.OrderEntity;
 import com.hsf.laptopshop.entity.UserProfileEntity;
 import com.hsf.laptopshop.repository.UserProfileRepository;
 import com.hsf.laptopshop.service.OrderService;
+import com.hsf.laptopshop.service.UserProfileService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserProfileRepository userProfileRepository;
+    private UserProfileService userProfileService;
 
     @GetMapping("/view")
     public String viewCart(Model model,
@@ -30,7 +31,7 @@ public class OrderController {
         if(userId == null) {
             return "redirect:/login";
         } else {
-            UserProfileEntity user = userProfileRepository.findById(userId).get();
+            UserProfileEntity user = userProfileService.getUserProfileById(userId);
             OrderEntity order = orderService.getOrCreateCart(user);
             model.addAttribute("total", orderService.calculateTotal(order));
             model.addAttribute("order", order);
@@ -48,7 +49,7 @@ public class OrderController {
         if(userId == null) {
             return "redirect:/login";
         } else {
-            UserProfileEntity user = userProfileRepository.findById(userId).get();
+            UserProfileEntity user = userProfileService.getUserProfileById(userId);
             orderService.addtoCart(user, laptopId);
             redirectAttributes.addFlashAttribute("successMessage", "Item added to cart successfully!");
             return "redirect:/user/product/" + laptopId;
