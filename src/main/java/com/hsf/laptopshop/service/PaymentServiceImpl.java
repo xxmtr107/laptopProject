@@ -34,18 +34,35 @@ public class PaymentServiceImpl implements PaymentService{
                 orElseThrow(() -> new RuntimeException("Invoice not found"));
         Long amount = totalAmount.multiply(BigDecimal.valueOf(100)).longValue();
 
-        InvoiceEntity invoice = InvoiceEntity.builder()
-                .order(orderInfo)
-                .totalAmount(totalAmount)
-                .status("PENDING")
-                .build();
+        // Check if invoice already exists for this order
+        InvoiceEntity invoice = invoiceRepository.findByOrder(orderInfo).orElse(null);
+
+        if (invoice == null) {
+            // Create new invoice for first payment
+            invoice = InvoiceEntity.builder()
+                    .order(orderInfo)
+                    .totalAmount(totalAmount)
+                    .status("PENDING")
+                    .build();
+        } else if (!"PAID".equals(invoice.getStatus())) {
+            // Update existing invoice if not yet paid
+            invoice.setTotalAmount(totalAmount);
+            invoice.setStatus("PENDING");
+        }
+        // If already PAID, use existing invoice (for receipt/re-verification)
         invoiceRepository.save(invoice);
 
         Map<String, String> vnp_ParamsMap = vnpayConfig.getVnPayConfig();
         vnp_ParamsMap.put("vnp_Amount", String.valueOf(amount));
         vnp_ParamsMap.put("vnp_IpAddr", "127.0.0.1");
-        vnp_ParamsMap.put("vnp_TxnRef", invoice.getInvoiceId().toString());
-        vnp_ParamsMap.put("vnp_OrderInfo", "Pay order " + orderInfo.getOrderId());
+        
+        // Generate unique transaction reference: timestamp + invoice ID
+        // This ensures each payment attempt gets a unique vnp_TxnRef even with same invoice
+        String vnp_TxnRef = System.currentTimeMillis() + "" + invoice.getInvoiceId();
+        vnp_ParamsMap.put("vnp_TxnRef", vnp_TxnRef);
+        
+        // Store invoice ID in OrderInfo so we can retrieve it in callback
+        vnp_ParamsMap.put("vnp_OrderInfo", "Invoice:" + invoice.getInvoiceId() + ",Order:" + orderInfo.getOrderId());
         vnp_ParamsMap.put("vnp_OrderType", "billpayment");
         vnp_ParamsMap.put("vnp_Locale", "vn");
         vnp_ParamsMap.put("vnp_ReturnUrl", PaymentConfig.vnp_returnurl);
@@ -70,19 +87,44 @@ public class PaymentServiceImpl implements PaymentService{
     @Override
     public PaymentResponse handlePaymentCallback(Map<String, String> allParams) {
         String responseCode = allParams.get("vnp_ResponseCode");
-        String orderId = allParams.get("vnp_OrderInfo").replaceAll("\\D+", "");
+        String orderInfo = allParams.get("vnp_OrderInfo");
+        
+        // Parse OrderInfo: "Invoice:123,Order:456"
+        Long invoiceId = null;
+        Long orderId = null;
+        try {
+            String[] parts = orderInfo.split(",");
+            for (String part : parts) {
+                if (part.startsWith("Invoice:")) {
+                    invoiceId = Long.parseLong(part.substring(8));
+                } else if (part.startsWith("Order:")) {
+                    orderId = Long.parseLong(part.substring(6));
+                }
+            }
+        } catch (Exception e) {
+            // Fallback to old format if parsing fails
+            orderId = Long.parseLong(orderInfo.replaceAll("\\D+", ""));
+        }
+        
         BigDecimal amount = BigDecimal.valueOf(Long.parseLong(allParams.get("vnp_Amount"))).divide(BigDecimal.valueOf(100));
-        String vnp_TxnRef = allParams.get("vnp_TxnRef");
-        Long invoiceId = Long.parseLong(vnp_TxnRef);
+        
+        // Find invoice
         InvoiceEntity invoice = invoiceRepository.findById(invoiceId).
-                orElseThrow(() -> new RuntimeException("Payment not found with id: " + vnp_TxnRef));
+                orElseThrow(() -> new RuntimeException("Payment not found"));
+        
+        // Get order ID from invoice if not parsed from OrderInfo
+        if (orderId == null) {
+            orderId = invoice.getOrder().getOrderId();
+        }
+        
         if(responseCode.equals("00")) {
-            invoiceService.MarkInvoiceAsPaid(invoiceId, Long.parseLong(orderId), amount);
-        }else {
+            invoiceService.MarkInvoiceAsPaid(invoiceId, orderId, amount);
+        } else {
             System.out.println("Payment failed with response code: " + responseCode);
         }
+        
         return PaymentResponse.builder()
-                .orderId(Long.parseLong(orderId))
+                .orderId(orderId)
                 .invoiceId(invoiceId)
                 .amount(amount)
                 .method("online")
@@ -92,11 +134,4 @@ public class PaymentServiceImpl implements PaymentService{
                 .build();
     }
 
-//    public void saveInvoice(Long orderId, BigDecimal amount) {
-//        InvoiceEntity invoice = new InvoiceEntity();
-//        invoice.setOrder(orderRepository.findById(orderId).get());
-//        invoice.setTotalAmount(amount);
-//        invoice.setStatus("PAID");
-//        invoiceRepository.save(invoice);
-//    }
 }

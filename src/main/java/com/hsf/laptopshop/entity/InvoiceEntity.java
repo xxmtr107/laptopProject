@@ -24,4 +24,6 @@ public class InvoiceEntity {
     BigDecimal totalAmount;
     @Column(name = "status")
     String status;
+    @Column(name = "payment_method")
+    String paymentMethod;
 }

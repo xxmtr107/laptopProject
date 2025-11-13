@@ -5,12 +5,14 @@ import com.hsf.laptopshop.repository.*;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
@@ -24,8 +26,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderEntity getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
+        OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+        // Initialize all associations for detail view
+        if (order.getUserProfile() != null) {
+            order.getUserProfile().getFullName();
+            order.getUserProfile().getEmail();
+        }
+        if (order.getInvoice() != null) {
+            order.getInvoice().getTotalAmount();
+            order.getInvoice().getPaymentMethod();
+        }
+        if (order.getOrderLaptops() != null && !order.getOrderLaptops().isEmpty()) {
+            order.getOrderLaptops().forEach(ol -> {
+                if (ol.getLaptop() != null) {
+                    ol.getLaptop().getName();
+                    ol.getLaptop().getPrice();
+                    if (ol.getLaptop().getBrand() != null) {
+                        ol.getLaptop().getBrand().getBrandName();
+                    }
+                }
+            });
+        }
+        return order;
     }
 
 //    @Override
@@ -61,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
 
         Optional<OrderLaptop> existingOrderLaptop = order.getOrderLaptops()
                 .stream()
-                .filter(ol -> ol.getLaptop().getLaptopId() == laptopId)
+                .filter(ol -> ol.getLaptop().getLaptopId().equals(laptopId))
                 .findFirst();
         if(existingOrderLaptop.isPresent()) {
             OrderLaptop ol = existingOrderLaptop.get();
@@ -97,16 +120,86 @@ public class OrderServiceImpl implements OrderService {
                         .multiply(BigDecimal.valueOf(ol.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-//        InvoiceEntity invoice = order.getInvoice();
-//        if (invoice == null) {
-//            invoice = new InvoiceEntity();
-//            invoice.setOrder(order);
-//        }
-//
-//        invoice.setTotalAmount(total);
-//        invoice.setStatus("Unpaid");
-//        invoiceRepository.save(invoice);
+        InvoiceEntity invoice = invoiceRepository.findByOrder(order).orElse(null);
+        if (invoice == null) {
+            invoice = new InvoiceEntity();
+            invoice.setOrder(order);
+        }
+
+        invoice.setTotalAmount(total);
+        invoice.setStatus("Unpaid");
+        invoiceRepository.save(invoice);
         return total;
+    }
+
+    @Override
+    public List<OrderEntity> getUserOrders(UserProfileEntity userProfile) {
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getUserProfile().equals(userProfile) 
+                        && !"CART".equals(order.getStatus()))
+                .sorted((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()))
+                .toList();
+    }
+
+    // Admin methods implementation
+    @Override
+    public org.springframework.data.domain.Page<OrderEntity> getAllOrders(org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.domain.Page<OrderEntity> page = orderRepository.findAllOrdersExcludingCart(pageable);
+        // Initialize lazy associations
+        page.getContent().forEach(this::initializeOrderAssociations);
+        return page;
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<OrderEntity> getOrdersByStatus(String status, org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.domain.Page<OrderEntity> page = orderRepository.findByStatusOrderByCreatedAtDesc(status, pageable);
+        // Initialize lazy associations
+        page.getContent().forEach(this::initializeOrderAssociations);
+        return page;
+    }
+
+    @Override
+    public org.springframework.data.domain.Page<OrderEntity> searchOrders(String status, String searchUser, org.springframework.data.domain.Pageable pageable) {
+        org.springframework.data.domain.Page<OrderEntity> page = orderRepository.searchOrders(status, searchUser, pageable);
+        // Initialize lazy associations
+        page.getContent().forEach(this::initializeOrderAssociations);
+        return page;
+    }
+    
+    // Helper method to initialize lazy associations
+    private void initializeOrderAssociations(OrderEntity order) {
+        if (order.getUserProfile() != null) {
+            order.getUserProfile().getFullName(); // Force initialization
+        }
+        if (order.getInvoice() != null) {
+            order.getInvoice().getTotalAmount(); // Force initialization
+        }
+        if (order.getOrderLaptops() != null) {
+            order.getOrderLaptops().size(); // Force initialization
+        }
+    }
+
+    @Override
+    public void updateOrderStatus(Long orderId, String status) {
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
+
+    @Override
+    public long countOrdersByStatus(String status) {
+        return orderRepository.countByStatus(status);
+    }
+
+    @Override
+    public BigDecimal getTotalRevenue() {
+        return invoiceRepository.findAll().stream()
+                .filter(invoice -> invoice.getOrder() != null && 
+                        !"CART".equals(invoice.getOrder().getStatus()) &&
+                        invoice.getTotalAmount() != null)
+                .map(InvoiceEntity::getTotalAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }

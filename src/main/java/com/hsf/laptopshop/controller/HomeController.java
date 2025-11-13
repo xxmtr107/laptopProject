@@ -45,13 +45,9 @@ public class HomeController {
         return "/guest/about";
     }
 
-
-
     // Trang liên hệ
     @GetMapping("/contact")
     public String contact() {
         return "/guest/contact";
     }
-
-
 }
