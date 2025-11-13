@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,31 +25,65 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #b3b3b3;
         }
-        /* Thêm style cho Date Picker */
+        /* Date Picker Styling */
         .date-picker {
-            background-color: #fff;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .date-picker label {
+            color: white;
+            font-weight: 500;
+            font-size: 0.875rem;
         }
         .date-picker input[type="date"] {
-            border: 1px solid #D1D5DB;
-            border-radius: 0.375rem;
-            padding: 0.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 0.5rem;
+            padding: 0.625rem 0.875rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .date-picker input[type="date"]:focus {
+            outline: none;
+            border-color: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
         }
         .date-picker button {
-            background-color: #4F46E5; /* indigo-600 */
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-weight: 500;
+            background-color: white;
+            color: #667eea;
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .date-picker button:hover {
-            background-color: #4338CA; /* indigo-700 */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Stat Card Animations */
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -4px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            transition: all 0.3s ease;
+        }
+        .chart-container:hover {
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -68,7 +102,7 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 <span class="ml-4">Dashboard</span>
             </a>
-            <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700 hover:text-white">
+            <a href="/admin/orders" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 text-gray-300 hover:bg-gray-700 hover:text-white">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                 <span class="ml-4">Đơn hàng</span>
             </a>
@@ -106,12 +140,12 @@
 
         <!-- Dashboard Content -->
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-            <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-800">Chào mừng trở lại, Admin!</h1>
-                    <p class="text-gray-600 mt-2">Đây là những gì đang diễn ra hôm nay.</p>
+                    <h1 class="text-4xl font-bold text-gray-900 mb-2">Chào mừng trở lại, Admin! 👋</h1>
+                    <p class="text-gray-600 text-lg">Đây là những gì đang diễn ra hôm nay.</p>
                 </div>
-                <a href="/admin/laptops/add" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all duration-200 hover:shadow-lg">
+                <a href="/admin/laptops/add" class="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
@@ -119,31 +153,82 @@
                 </a>
             </div>
 
-            <!-- === ĐÃ THÊM BỘ LỌC NGÀY VÀO ĐÂY === -->
-            <div class="date-picker">
+            <!-- === BỘ LỌC NGÀY === -->
+            <form action="/admin/dashboard" method="get" class="date-picker">
                 <label for="startDate">Từ ngày:</label>
-                <input type="date" id="startDate" name="startDate">
+                <input type="date" id="startDate" name="startDate" th:value="${startDate}">
                 <label for="endDate">Đến ngày:</label>
-                <input type="date" id="endDate" name="endDate">
-                <button id="filterButton">Lọc</button>
-            </div>
+                <input type="date" id="endDate" name="endDate" th:value="${endDate}">
+                <button type="submit">Lọc</button>
+            </form>
 
-            <div id="stats-cards" class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-                <!-- Stat Cards sẽ được chèn bởi JS -->
+            <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-3">
+                <!-- Stat Cards -->
+                <div class="stat-card bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Tổng Sản Phẩm</p>
+                            <p class="text-3xl font-bold text-gray-900" th:text="${totalProducts}">0</p>
+                            <p class="text-xs text-gray-500 mt-1">Laptops trong kho</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Tổng Người Dùng</p>
+                            <p class="text-3xl font-bold text-gray-900" th:text="${totalUsers}">0</p>
+                            <p class="text-xs text-gray-500 mt-1">Khách hàng đã đăng ký</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197m0 0A5.975 5.975 0 0112 13a5.975 5.975 0 013-1.197"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">Tổng Đơn Hàng</p>
+                            <p class="text-3xl font-bold text-gray-900" th:text="${totalOrders}">0</p>
+                            <p class="text-xs text-gray-500 mt-1">Đơn hàng đã xử lý</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 shadow-lg">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Tổng quan doanh thu</h3>
-                    <div class="h-72">
+                <div class="lg:col-span-2 chart-container bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">📊 Tổng quan doanh thu</h3>
+                        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-full">Theo tháng</span>
+                    </div>
+                    <div class="h-80">
                         <canvas id="salesChart"></canvas>
                     </div>
                 </div>
 
-                <div class="lg:col-span-1 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Đơn hàng gần đây</h3>
-                    <ul id="recent-orders-list" class="space-y-4">
-                        <!-- Orders sẽ được chèn bởi JS -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-xl border border-gray-100 shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">🛍️ Đơn hàng gần đây</h3>
+                    <ul class="space-y-3">
+                        <li th:each="order : ${recentOrdersList}" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors duration-150">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-12 w-12 rounded-full object-cover ring-2 ring-gray-200" th:src="'https://i.pravatar.cc/150?u=' + ${order.customerName}" th:alt="${order.customerName}" />
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900" th:text="${order.customerName}">N/A</p>
+                                    <p class="text-xs text-gray-500" th:text="'Đơn hàng #' + ${order.orderId}">#0</p>
+                                </div>
+                            </div>
+                            <div class='text-right'>
+                                <p class="text-sm font-bold text-indigo-600" th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')} + ' ₫'">0 ₫</p>
+                                <span class="text-xs text-gray-500" th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy')}">13/11/2025</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -151,9 +236,54 @@
     </div>
 </div>
 
-<!-- === ĐÃ SỬA LẠI SCRIPT TAG === -->
-<!-- Xóa bỏ importmap và script type="module" của React/tsx -->
-<!-- Thêm script JS thuần của chúng ta -->
-<script src="/js/dashboard.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.addEventListener('DOMContentLoaded', () => {
+        const salesChartCanvas = document.getElementById('salesChart');
+        
+        // Get revenue chart data from Thymeleaf
+        const revenueChartData = /*[[${revenueChartData}]]*/ [];
+        
+        if (salesChartCanvas && revenueChartData && revenueChartData.length > 0) {
+            const ctx = salesChartCanvas.getContext('2d');
+            
+            const labels = revenueChartData.map(item => `Tháng ${item.month}`);
+            const revenues = revenueChartData.map(item => item.totalRevenue);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh Thu (VND)',
+                        data: revenues,
+                        borderColor: 'rgb(79, 70, 229)',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return (Number(value) / 1000000).toLocaleString('vi-VN') + ' tr';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: true }
+                    }
+                }
+            });
+        }
+    });
+    /*]]>*/
+</script>
 </body>
 </html>
