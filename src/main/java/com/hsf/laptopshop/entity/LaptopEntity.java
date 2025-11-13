@@ -21,7 +21,7 @@ public class LaptopEntity {
     Integer laptopId;
 
     String name;
-    BigDecimal price;
+    BigDecimal price; //BigDecimal? Ông bán laptop gì mà có thể vượt được 2 tỷ vậy? Sao không sài double?
 
     @Column(length = 1000)
     String image;

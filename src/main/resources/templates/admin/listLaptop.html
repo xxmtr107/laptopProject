@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý Laptop</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <style>
+        .laptop-image {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+        }
+        .description-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Quản lý Laptop</h2>
+        <a href="/admin/dashboard" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Về Dashboard
+        </a>
+    </div>
+    <a href="/admin/laptops/add" class="btn btn-success mb-2">Thêm Laptop mới</a>
+    
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Hình ảnh</th>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Thương hiệu</th>
+            <th>Series</th>
+            <th>Kho</th>
+            <th>Nổi bật</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="laptop : ${laptopPage.content}">
+            <td th:text="${laptop.laptopId}"></td>
+            <td>
+                <img th:if="${laptop.image != null && !laptop.image.isEmpty()}" 
+                     th:src="${laptop.image}" 
+                     alt="Laptop" 
+                     class="laptop-image"/>
+                <span th:if="${laptop.image == null || laptop.image.isEmpty()}">Không có ảnh</span>
+            </td>
+            <td th:text="${laptop.name}"></td>
+            <td th:text="${#numbers.formatDecimal(laptop.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+            <td th:text="${laptop.brand != null ? laptop.brand.brandName : 'N/A'}"></td>
+            <td th:text="${laptop.series != null ? laptop.series.seriesName : 'N/A'}"></td>
+            <td th:text="${laptop.stock}"></td>
+            <td>
+                <span th:if="${laptop.featured}" class="badge bg-success">Có</span>
+                <span th:if="${!laptop.featured}" class="badge bg-secondary">Không</span>
+            </td>
+            <td>
+                <a th:href="@{'/admin/laptops/edit/' + ${laptop.laptopId}}" class="btn btn-primary btn-sm">Sửa</a>
+                <a th:href="@{'/admin/laptops/delete/' + ${laptop.laptopId}}" 
+                   class="btn btn-danger btn-sm" 
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa laptop này?')">Xóa</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav th:if="${laptopPage.totalPages > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${laptopPage.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin/laptops(page=${currentPage - 1})}">Trước</a>
+            </li>
+            
+            <li class="page-item" 
+                th:each="i : ${#numbers.sequence(0, laptopPage.totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/admin/laptops(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            
+            <li class="page-item" th:classappend="${laptopPage.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/admin/laptops(page=${currentPage + 1})}">Sau</a>
+            </li>
+        </ul>
+    </nav>
+
+    <p class="text-muted">
+        Hiển thị trang <span th:text="${currentPage + 1}"></span> / <span th:text="${laptopPage.totalPages}"></span>
+        (Tổng <span th:text="${laptopPage.totalElements}"></span> laptop)
+    </p>
+</div>
+</body>
+</html>

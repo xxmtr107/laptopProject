@@ -1,9 +1,9 @@
 package com.hsf.laptopshop.controller;
 
-import com.hsf.laptopshop.entity.BrandEntity;
-import com.hsf.laptopshop.entity.LaptopEntity;
-import com.hsf.laptopshop.entity.LaptopSeriesEntity;
+import com.hsf.laptopshop.entity.*;
+import com.hsf.laptopshop.security.SecurityUtils;
 import com.hsf.laptopshop.service.BrandService;
+import com.hsf.laptopshop.service.OrderService;
 import com.hsf.laptopshop.service.UserService;
 import com.hsf.laptopshop.service.LaptopService;
 
@@ -13,16 +13,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -36,6 +32,9 @@ public class UserPageController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
     // Trang chủ user
     @GetMapping("/home")
@@ -76,15 +75,65 @@ public class UserPageController {
         return "user/user-catalogue";
     }
 
-    // Hồ sơ cá nhân
+    // Hồ sơ cá nhân - Hiển thị
     @GetMapping("/profile")
     public String userProfilePage(Model model) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        if (userId == null) {
+            return "redirect:/login";
+        }
+        
+        UserEntity user = userService.findById(userId);
+        model.addAttribute("user", user);
         return "user/user-profile";
+    }
+
+    // Hồ sơ cá nhân - Cập nhật
+    @PostMapping("/profile")
+    public String updateProfile(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("phone") String phone,
+            @RequestParam("address") String address,
+            RedirectAttributes redirectAttributes
+    ) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            userService.updateUserProfile(userId, fullName, phone, address);
+            redirectAttributes.addFlashAttribute("success", "Cập nhật thông tin thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Có lỗi xảy ra: " + e.getMessage());
+        }
+
+        return "redirect:/user/profile";
     }
 
     // Lịch sử đơn hàng
     @GetMapping("/orders")
     public String userOrdersPage(Model model) {
+        Long userId = SecurityUtils.getCurrentUserId();
+        if (userId == null) {
+            return "redirect:/login";
+        }
+        
+        UserProfileEntity userProfile = userService.getUserProfile(userId);
+        List<OrderEntity> orders = orderService.getUserOrders(userProfile);
+        
+        // Calculate totals for each order
+        Map<Long, BigDecimal> orderTotals = new HashMap<>();
+        for (OrderEntity order : orders) {
+            BigDecimal total = order.getOrderLaptops().stream()
+                    .map(ol -> ol.getLaptop().getPrice().multiply(BigDecimal.valueOf(ol.getQuantity())))
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            orderTotals.put(order.getOrderId(), total);
+        }
+        
+        model.addAttribute("orders", orders);
+        model.addAttribute("orderTotals", orderTotals);
+        
         return "user/history";
     }
 

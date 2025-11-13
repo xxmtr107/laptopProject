@@ -12,7 +12,6 @@ import java.util.TimeZone;
 public class VNpayConfig {
 
     private String vnp_TmnCode = PaymentConfig.vnp_tmncode;
-    String vnp_TxnRef = PaymentConfig.getRandomNumber(8);
 
     public Map<String, String> getVnPayConfig() {
         Map<String, String> vnp_Params = new HashMap<>();
@@ -20,10 +19,10 @@ public class VNpayConfig {
         vnp_Params.put("vnp_Command", "pay");
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
+        // vnp_TxnRef will be set in PaymentServiceImpl with invoice ID
 //        vnp_Params.put("vnp_OrderInfo", "Pay invoice " + invoiceId);
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", "http://localhost:8080/api/auth/payments/return");
+        vnp_Params.put("vnp_ReturnUrl", PaymentConfig.vnp_returnurl);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");

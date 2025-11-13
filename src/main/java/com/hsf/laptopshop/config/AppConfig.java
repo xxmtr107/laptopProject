@@ -7,8 +7,6 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.concurrent.CompletableFuture;
-
 @Configuration
 public class AppConfig {
     @Bean
@@ -17,23 +15,23 @@ public class AppConfig {
         modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT);
 
-        // CẤU HÌNH MAP NÂNG CAO (ĐÃ SỬA LỖI NULL)
-        modelMapper.typeMap(OrderEntity.class, OrderSimpleDTO.class).addMappings(mapper -> {
+        // FIXED: use post converter instead of risky lambda mappings
+        modelMapper.typeMap(OrderEntity.class, OrderSimpleDTO.class)
+                .setPostConverter(context -> {
+                    OrderEntity src = context.getSource();
+                    OrderSimpleDTO dest = context.getDestination();
 
-            // 1. Chỉ map 'customerName' NẾU 'userProfile' không bị null
-            mapper.map(
-                    src -> (src.getUserProfile() != null) ? src.getUserProfile().getFullName() : null,
-                    OrderSimpleDTO::setCustomerName
-            );
+                    // Map nested fields safely
+                    if (src.getUserProfile() != null) {
+                        dest.setCustomerName(src.getUserProfile().getFullName());
+                    }
 
-            // 2. Chỉ map 'totalAmount' NẾU 'invoice' không bị null
-            mapper.map(
-                    src -> (src.getInvoice() != null) ? src.getInvoice().getTotalAmount() : null,
-                    OrderSimpleDTO::setTotalAmount
-            );
+                    if (src.getInvoice() != null) {
+                        dest.setTotalAmount(src.getInvoice().getTotalAmount().doubleValue());
+                    }
 
-            // (Các trường tên giống nhau như orderId và createdAt sẽ tự động được map)
-        });
+                    return dest;
+                });
 
         return modelMapper;
     }
