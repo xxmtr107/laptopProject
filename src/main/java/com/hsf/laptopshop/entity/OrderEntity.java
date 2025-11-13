@@ -34,8 +34,6 @@ public class OrderEntity {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, optional = true)
     InvoiceEntity invoice;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<OrderItemEntity> orderItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLaptop> orderLaptops = new ArrayList<>();
